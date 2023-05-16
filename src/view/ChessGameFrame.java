@@ -81,18 +81,18 @@ public class ChessGameFrame extends JFrame {
             Save s=new Save();
             s.save(gameController,this.Name);
         });
-        button.setLocation(HEIGTH, HEIGTH / 50 + 120);
+        button.setLocation(HEIGTH, HEIGTH / 10 + 180);
         button.setSize(200, 60);
         button.setFont(new Font("Rockwell", Font.BOLD, 20));
         add(button);
     }
 
-//    private void addLoadButton() {
-//        JButton button = new JButton("Load");
-//        button.setLocation(HEIGTH, HEIGTH / 10 + 240);
-//        button.setSize(200, 60);
-//        button.setFont(new Font("Rockwell", Font.BOLD, 20));
-//        add(button);
+   public void addLoadButton() {
+        JButton button = new JButton("Load");
+        button.setLocation(HEIGTH, HEIGTH / 10 + 240);
+        button.setSize(200, 60);
+        button.setFont(new Font("Rockwell", Font.BOLD, 20));
+        add(button);}
 //
 //        button.addActionListener(e -> {
 //            System.out.println("Click load");
