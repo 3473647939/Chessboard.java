@@ -15,7 +15,7 @@ public class GameController implements GameListener {
     private ChessboardComponent view;
     private PlayerColor currentPlayer;
     public PlayerColor Winner;
-    private ChessboardPoint selectedPoint;//
+    private ChessboardPoint selectedPoint;
 
     public GameController(ChessboardComponent view, Chessboard model) {
         this.view = view;
