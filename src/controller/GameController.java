@@ -45,7 +45,7 @@ public class GameController implements GameListener {
         if (model.grid[8][3]!=null||model.blueOver.toArray().length==8){
             Winner=PlayerColor.RED;return true;
         }
-        return false;
+        return false;//
     }
     // click an empty cell
     @Override
