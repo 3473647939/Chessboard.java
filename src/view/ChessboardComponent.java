@@ -176,7 +176,7 @@ public class ChessboardComponent extends JComponent {
         return gridComponents[point.getRow()][point.getCol()];
     }
     public void autosave(int k) {
-        File file = new File("D:\\Save\\autosave\\"+k+".txt");
+        File file = new File("resource\\autosave\\"+k+".txt");
         try {
             FileWriter fileWriter = new FileWriter(file);
             BufferedWriter bufferedWriter=new BufferedWriter(fileWriter);

@@ -10,13 +10,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class Save {
-    private GameController gameController;
     public void save(GameController gameController,String name) {
-        File file = new File("D:\\Save\\"+name+".txt");
+        File file = new File("resource\\Save\\"+name+".txt");
         try {
-            if(!file.exists()) {
-                file.createNewFile();
-            }
             FileWriter fileWriter = new FileWriter(file);
             BufferedWriter bufferedWriter=new BufferedWriter(fileWriter);
             for (int i = 0; i < 9; i++) {

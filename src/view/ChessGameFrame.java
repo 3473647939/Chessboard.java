@@ -1,6 +1,7 @@
 package view;
 
 import controller.GameController;
+import controller.Load;
 import controller.Save;
 
 import javax.swing.*;
@@ -72,12 +73,13 @@ public class ChessGameFrame extends JFrame {
         button.setFont(new Font("Rockwell", Font.BOLD, 20));
         add(button);
     }
+
     public void addSaveButton(GameController gameController) {
         JButton button = new JButton("Save");
         button.addActionListener((e) -> {
-            this.Name=JOptionPane.showInputDialog("请输入存档名");
-            Save s=new Save();
-            s.save(gameController,this.Name);
+            this.Name = JOptionPane.showInputDialog("请输入存档名");
+            Save s = new Save();
+            s.save(gameController, this.Name);
         });
         button.setLocation(HEIGTH, HEIGTH / 10 + 180);
         button.setSize(200, 60);
@@ -85,19 +87,15 @@ public class ChessGameFrame extends JFrame {
         add(button);
     }
 
-   public void addLoadButton() {
+    public void addLoadButton(GameController gameController) {
         JButton button = new JButton("Load");
         button.setLocation(HEIGTH, HEIGTH / 10 + 240);
         button.setSize(200, 60);
         button.setFont(new Font("Rockwell", Font.BOLD, 20));
-        add(button);}
-//
-//        button.addActionListener(e -> {
-//            System.out.println("Click load");
-//            String path = JOptionPane.showInputDialog(this,"Input Path here");
-//            gameController.loadGameFromFile(path);
-//        });
-//    }
-
-
+        add(button);
+        button.addActionListener(e -> {
+            Load l=new Load();
+            l.load(gameController);
+        });
+    }
 }

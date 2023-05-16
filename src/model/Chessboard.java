@@ -332,4 +332,5 @@ public class Chessboard {
         }
         return false;
     }
+
 }

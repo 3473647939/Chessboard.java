@@ -33,7 +33,7 @@ public class GameController implements GameListener {
 
     private void initialize() {
         turn=0;
-        for (File file : new File("D:\\Save\\autosave").listFiles()) {
+        for (File file : new File("resource\\autosave").listFiles()) {
             file.delete();
         }
         for (int i = 0; i < Constant.CHESSBOARD_ROW_SIZE.getNum(); i++) {
@@ -106,6 +106,10 @@ public class GameController implements GameListener {
 
     public Chessboard getModel() {
         return  model;
+    }
+
+    public void setCurrentPlayer(PlayerColor currentPlayer) {
+        this.currentPlayer = currentPlayer;
     }
 
     public Object getCurrentPlayer() {
