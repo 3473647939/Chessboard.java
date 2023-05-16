@@ -8,6 +8,10 @@ import view.ChessView.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -170,6 +174,25 @@ public class ChessboardComponent extends JComponent {
 
     private CellComponent getGridComponentAt(ChessboardPoint point) {
         return gridComponents[point.getRow()][point.getCol()];
+    }
+    public void autosave(int k) {
+        File file = new File("D:\\Save\\autosave\\"+k+".txt");
+        try {
+            FileWriter fileWriter = new FileWriter(file);
+            BufferedWriter bufferedWriter=new BufferedWriter(fileWriter);
+            for (int i = 0; i < 9; i++) {
+                for (int j = 0; j < 7; j++) {
+                    Cell cell = gameController.getModel().getGrid()[i][j];
+                    if (cell.getPiece() !=null) {
+                        bufferedWriter.write(i + "\t" + j + "\t" + (cell.getPiece().getOwner().equals(PlayerColor.BLUE) ?  "Blue":"Red" ) + "\t" + cell.getPiece().getName() + "\t" + cell.getPiece().getRank() + "\n");
+                    }
+                }
+            }
+            bufferedWriter.write(gameController.getCurrentPlayer().equals(PlayerColor.BLUE)?"Blue":"Red");
+            bufferedWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private ChessboardPoint getChessboardPoint(Point point) {

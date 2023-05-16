@@ -19,7 +19,6 @@ public class GameController implements GameListener {
     private PlayerColor currentPlayer;
     public PlayerColor Winner;
     private ChessboardPoint selectedPoint;
-    private Save save;
     public int turn;
 
     public GameController(ChessboardComponent view, Chessboard model) {
@@ -69,7 +68,7 @@ public class GameController implements GameListener {
             swapColor();
             view.repaint();
             turn++;
-            save.autosave(turn);
+            view.autosave(turn);
         }
     }
     // click a cell with a chess
@@ -96,7 +95,7 @@ public class GameController implements GameListener {
                 swapColor();
                 view.repaint();
                 turn++;
-                save.autosave(turn);
+                view.autosave(turn);
             } else if (model.getChessPieceOwner(point).equals(currentPlayer)) {
                 selectedPoint = point;
                 component.setSelected(true);
