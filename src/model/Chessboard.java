@@ -1,9 +1,5 @@
 package model;
 
-import com.sun.jdi.event.StepEvent;
-import controller.GameController;
-import view.ChessboardComponent;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
