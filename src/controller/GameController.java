@@ -8,6 +8,9 @@ import view.ChessView.All;
 import view.ChessboardComponent;
 
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
+
 public class GameController implements GameListener {
 
 
@@ -16,6 +19,8 @@ public class GameController implements GameListener {
     private PlayerColor currentPlayer;
     public PlayerColor Winner;
     private ChessboardPoint selectedPoint;
+    private Save save;
+    public int turn;
 
     public GameController(ChessboardComponent view, Chessboard model) {
         this.view = view;
@@ -28,6 +33,10 @@ public class GameController implements GameListener {
     }
 
     private void initialize() {
+        turn=0;
+        for (File file : new File("D:\\Save\\autosave").listFiles()) {
+            file.delete();
+        }
         for (int i = 0; i < Constant.CHESSBOARD_ROW_SIZE.getNum(); i++) {
             for (int j = 0; j < Constant.CHESSBOARD_COL_SIZE.getNum(); j++) {
             }
@@ -59,6 +68,8 @@ public class GameController implements GameListener {
             win();
             swapColor();
             view.repaint();
+            turn++;
+            save.autosave(turn);
         }
     }
     // click a cell with a chess
@@ -76,6 +87,7 @@ public class GameController implements GameListener {
             component.repaint();
         } else if(point!=null){
             if (model.isValidCapture(selectedPoint, point) && model.isValidMove(selectedPoint, point)) {
+                model.captureChessPiece(selectedPoint,point);
                 model.moveChessPiece(selectedPoint, point);
                 view.setChessComponentAtGrid(point, view.removeChessComponentAtGrid(selectedPoint));
                 selectedPoint = null;
@@ -83,6 +95,8 @@ public class GameController implements GameListener {
                 win();
                 swapColor();
                 view.repaint();
+                turn++;
+                save.autosave(turn);
             } else if (model.getChessPieceOwner(point).equals(currentPlayer)) {
                 selectedPoint = point;
                 component.setSelected(true);
