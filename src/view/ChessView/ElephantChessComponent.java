@@ -36,10 +36,9 @@ public class ElephantChessComponent extends All {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        ImageIcon pic = new ImageIcon("resource\\RElephant.png");
-        if (owner == PlayerColor.BLUE){
-            pic = new ImageIcon("resource\\BElephant.png");
-        }
+        ImageIcon pic = new ImageIcon();
+        if (owner == PlayerColor.RED) pic = new ImageIcon("resource\\RElephant.png");
+        if (owner == PlayerColor.BLUE) pic = new ImageIcon("resource\\BElephant.png");
         Image image = pic.getImage();
         pic = new ImageIcon(image.getScaledInstance(size,size,Image.SCALE_REPLICATE));
         JLabel label = new JLabel(pic);

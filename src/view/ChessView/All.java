@@ -17,7 +17,6 @@ public class All extends JComponent {
     public void setSelected(boolean selected) {
         this.selected = selected;
     }
-    public All(){};
 
     @Override
     protected void paintComponent(Graphics g) {

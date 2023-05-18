@@ -28,8 +28,19 @@ public class ChessboardComponent extends JComponent {
     private Set<ChessboardPoint> trapCell = new HashSet<>();
     private Set<ChessboardPoint> denCell = new HashSet<>();
     private GameController gameController;
-    public JLabel statusLabel;
-    public JLabel timeLabel;
+
+
+    public Set<ChessboardPoint> getTrapCell() {
+        return trapCell;
+    }
+
+    public Set<ChessboardPoint> getRiverCell() {
+        return riverCell;
+    }
+
+    public Set<ChessboardPoint> getDenCell() {
+        return denCell;
+    }
 
     public ChessboardComponent(int chessSize) {
         CHESS_SIZE = chessSize;
@@ -137,8 +148,14 @@ public class ChessboardComponent extends JComponent {
                     cell = new CellComponent(Color.CYAN, calculatePoint(i, j), CHESS_SIZE);
                     this.add(cell);
                 } else if (trapCell.contains(temp)) {//添加图片
+                    ImageIcon pic = new ImageIcon("resource\\Trap.png");
+                    Image image = pic.getImage();
+                    pic = new ImageIcon(image.getScaledInstance(CHESS_SIZE, CHESS_SIZE, Image.SCALE_REPLICATE));
+                    JLabel label = new JLabel(pic);
+                    label.setSize(CHESS_SIZE, CHESS_SIZE);
                     cell = new CellComponent(Color.GREEN, calculatePoint(i, j), CHESS_SIZE);
                     this.add(cell);
+                    add(label);
                 } else {
                     cell = new CellComponent(Color.LIGHT_GRAY, calculatePoint(i, j), CHESS_SIZE);
                     this.add(cell);
@@ -219,17 +236,6 @@ public class ChessboardComponent extends JComponent {
         }
     }
 
-    public Set<ChessboardPoint> getRiverCell() {
-        return riverCell;
-    }
-
-    public Set<ChessboardPoint> getTrapCell() {
-        return trapCell;
-    }
-
-    public Set<ChessboardPoint> getDenCell() {
-        return denCell;
-    }
 }
 
 

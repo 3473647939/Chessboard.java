@@ -86,6 +86,10 @@ public class ChessGameFrame extends JFrame {
         button.setFont(new Font("Rockwell", Font.BOLD, 20));
         add(button);
     }
+    public void addRegretButton(GameController gameController){
+        JButton button = new JButton("Regret");
+
+    }
 
     public void addLoadButton(GameController gameController) {
         JButton button = new JButton("Load");

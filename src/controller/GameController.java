@@ -7,9 +7,7 @@ import view.CellComponent;
 import view.ChessView.All;
 import view.ChessboardComponent;
 
-import java.awt.*;
 import java.io.File;
-import java.io.IOException;
 
 public class GameController implements GameListener {
 
@@ -34,7 +32,7 @@ public class GameController implements GameListener {
 
     private void initialize() {
         turn=0;Undochance=3;
-        for (File file : new File("resource\\autosave").listFiles()) {
+        for (File file : new File("resource\\autoSave").listFiles()) {
             file.delete();
         }
         for (int i = 0; i < Constant.CHESSBOARD_ROW_SIZE.getNum(); i++) {
@@ -87,9 +85,9 @@ public class GameController implements GameListener {
             component.setSelected(false);
             component.repaint();
         } else if(point!=null){
-            if (model.isValidCapture(selectedPoint, point) && model.isValidMove(selectedPoint, point)) {
+            if (model.isValidCapture(selectedPoint, point)) {
                 model.captureChessPiece(selectedPoint,point);
-                model.moveChessPiece(selectedPoint, point);
+                view.removeChessComponentAtGrid(point);
                 view.setChessComponentAtGrid(point, view.removeChessComponentAtGrid(selectedPoint));
                 selectedPoint = null;
                 model.intrap(point,currentPlayer);

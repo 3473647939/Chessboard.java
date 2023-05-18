@@ -36,10 +36,9 @@ public class WolfChessComponent extends All{
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                ImageIcon pic = new ImageIcon("resource\\RWolf.png");
-                if (owner == PlayerColor.BLUE){
-                    pic = new ImageIcon("resource\\BWolf.png");
-                }
+                ImageIcon pic = new ImageIcon();
+                if (owner == PlayerColor.RED)  pic = new ImageIcon("resource\\RWolf.png");
+                if (owner == PlayerColor.BLUE) pic = new ImageIcon("resource\\BWolf.png");
                 Image image = pic.getImage();
                 pic = new ImageIcon(image.getScaledInstance(size,size,Image.SCALE_SMOOTH));
                 JLabel label = new JLabel(pic);

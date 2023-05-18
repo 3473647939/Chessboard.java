@@ -1,5 +1,8 @@
 package model;
 
+
+import model.*;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -79,7 +82,7 @@ public class Chessboard {
         return Math.abs(src.getRow() - dest.getRow()) + Math.abs(src.getCol() - dest.getCol());
     }
 
-    private ChessPiece removeChessPiece(ChessboardPoint point) {
+    public ChessPiece removeChessPiece(ChessboardPoint point) {
         ChessPiece chessPiece = getChessPieceAt(point);
         getGridAt(point).removePiece();
         return chessPiece;
@@ -140,7 +143,7 @@ public class Chessboard {
 
     public void moveChessPiece(ChessboardPoint src, ChessboardPoint dest) {
         if (!isValidMove(src, dest)) {
-            throw new IllegalArgumentException("Illegal chess move!");
+            throw new IllegalArgumentException("充满想象力的走法");
         }
         ChessPiece chessPiece = removeChessPiece(src);
         setChessPiece(dest,chessPiece);
@@ -148,20 +151,11 @@ public class Chessboard {
     }
 
     public void captureChessPiece(ChessboardPoint src, ChessboardPoint dest) {
-        if (isValidCapture(src, dest)) {
-            throw new IllegalArgumentException("Illegal chess capture!");
+        if (!isValidCapture(src, dest)) {
+            throw new IllegalArgumentException("充满想象力的走法");
         }
         ChessPiece eat = removeChessPiece(src);
-        ChessPiece eaten = removeChessPiece(dest);
         setChessPiece(dest,eat);
-        if (eaten.getOwner() == PlayerColor.BLUE){
-            blueOver.add(eaten);
-            System.out.println("blue eaten" + blueOver.size());
-        }else {
-            redOver.add(eaten);
-            System.out.println("red eaten"+redOver.size());
-        }
-        gos.add(new Go(src,dest,eat.getOwner(),eaten));
     }
 
     public Cell[][] getGrid() {
@@ -173,13 +167,15 @@ public class Chessboard {
 
     public boolean isValidMove(ChessboardPoint src, ChessboardPoint dest) {
         ChessPiece chessPiece = getChessPieceAt(src);
-        if (getChessPieceAt(src) == null || getChessPieceAt(dest) != null) {
+        if (getChessPieceAt(src) == null || (getChessPieceAt(dest) != null)) {
             return false;
         }
         if (isOwnDens(dest,chessPiece.getOwner())) return false;
-        boolean a = calculateDistance(src,dest) == 1;
+        boolean a ;
+        a = calculateDistance(src,dest) == 1;
         if (chessPiece.getName().equals("Elephant")){
-            return a && !isRiver(dest);
+            boolean b = a && !isRiver(dest);
+            return b;
         }
 
         if (chessPiece.getName().equals("Lion")){
@@ -189,16 +185,20 @@ public class Chessboard {
             return (a && !isRiver(dest)) || canJumpRiver(src, dest);
         }
         if (chessPiece.getName().equals("Leopard")){
-            return a && !isRiver(dest);
+            boolean b = a && !isRiver(dest);
+            return b;
         }
         if (chessPiece.getName().equals("Wolf")){
-            return a && !isRiver(dest);
+            boolean b = a && !isRiver(dest);
+            return b;
         }
         if (chessPiece.getName().equals("Dog")){
-            return a && !isRiver(dest);
+            boolean b = a && !isRiver(dest);
+            return b;
         }
         if (chessPiece.getName().equals("Cat")){
-            return a && !isRiver(dest);
+            boolean b = a && !isRiver(dest);
+            return b;
         }
         if (chessPiece.getName().equals("Rat")){
             return a;
@@ -242,8 +242,11 @@ public class Chessboard {
         return false;
     }
     private boolean isRiver(ChessboardPoint point){
-        return point.getRow() >= 3 && point.getRow() <= 5 &&
-                (point.getCol() == 1 || point.getCol() == 2 || point.getCol() == 4 || point.getCol() == 5);
+        if (point.getCol()>=1&&point.getCol()<=2&&point.getRow()>=3&&point.getRow()<=5)
+            return true;
+        if (point.getCol()>=4&&point.getCol()<=5&&point.getRow()>=3&&point.getRow()<=5)
+            return true;
+        return false;
     }
 
     private boolean isOwnDens(ChessboardPoint point, PlayerColor color){
@@ -277,58 +280,79 @@ public class Chessboard {
     private boolean canJumpRiver(ChessboardPoint src, ChessboardPoint dest){
         if ((src.getRow() == 3 && src.getCol() == 0 && dest.getRow() == 3 && dest.getCol() == 3)
                 || (src.getRow() == 3 && src.getCol() == 3 && dest.getRow() == 3 && dest.getCol() == 0)){
-            return getChessPieceAt(new ChessboardPoint(3, 1)) == null
-                    && getChessPieceAt(new ChessboardPoint(3, 2)) == null;
+            if (getChessPieceAt(new ChessboardPoint(3, 1)) == null
+                    && getChessPieceAt(new ChessboardPoint(3, 2)) == null){
+                return true;
+            }
         }
         if ((src.getRow() == 4 && src.getCol() == 0 && dest.getRow() == 4 && dest.getCol() == 3)
                 || (src.getRow() == 4 && src.getCol() == 3 && dest.getRow() == 4 && dest.getCol() == 0)){
-            return getChessPieceAt(new ChessboardPoint(4, 1)) == null
-                    && getChessPieceAt(new ChessboardPoint(4, 2)) == null;
+            if ( getChessPieceAt(new ChessboardPoint(4, 1)) == null
+                    && getChessPieceAt(new ChessboardPoint(4, 2)) == null){
+                return true;
+            }
+
         }
         if ((src.getRow() == 5 && src.getCol() == 0 && dest.getRow() == 5 && dest.getCol() == 3)
                 || (src.getRow() == 5 && src.getCol() == 3 && dest.getRow() == 5 && dest.getCol() == 0)){
-            return getChessPieceAt(new ChessboardPoint(5, 1)) == null
-                    && getChessPieceAt(new ChessboardPoint(5, 2)) == null;
+          if (getChessPieceAt(new ChessboardPoint(5, 1)) == null
+                  && getChessPieceAt(new ChessboardPoint(5, 2)) == null){
+              return true;
+          }
         }
         if ((src.getRow() == 3 && src.getCol() == 3 && dest.getRow() == 3 && dest.getCol() == 6)
                 || (src.getRow() == 3 && src.getCol() == 6 && dest.getRow() == 3 && dest.getCol() == 3)){
-            return getChessPieceAt(new ChessboardPoint(3, 4)) == null
-                    && getChessPieceAt(new ChessboardPoint(3, 5)) == null;
+            if (getChessPieceAt(new ChessboardPoint(3, 4)) == null
+                    && getChessPieceAt(new ChessboardPoint(3, 5)) == null){
+                return true;
+            }
         }
         if ((src.getRow() == 4 && src.getCol() == 3 && dest.getRow() == 4 && dest.getCol() == 6)
                 || (src.getRow() == 4 && src.getCol() == 6 && dest.getRow() == 4 && dest.getCol() == 3)){
-            return getChessPieceAt(new ChessboardPoint(4, 4)) == null
-                    && getChessPieceAt(new ChessboardPoint(4, 5)) == null;
+            if (getChessPieceAt(new ChessboardPoint(4, 4)) == null
+                    && getChessPieceAt(new ChessboardPoint(4, 5)) == null){
+                return true;
+            }
         }
         if ((src.getRow() == 5 && src.getCol() == 3 && dest.getRow() == 5 && dest.getCol() == 6)
                 || (src.getRow() == 5 && src.getCol() == 6 && dest.getRow() == 5 && dest.getCol() == 3)){
-            return getChessPieceAt(new ChessboardPoint(5, 4)) == null
-                    && getChessPieceAt(new ChessboardPoint(5, 5)) == null;
+           if (getChessPieceAt(new ChessboardPoint(5, 4)) == null
+                   && getChessPieceAt(new ChessboardPoint(5, 5)) == null){
+               return true;
+           }
         }
 
         if ((src.getRow() == 2 && src.getCol() == 1 && dest.getRow() == 6 && dest.getCol() == 1)
                 || (src.getRow() == 6 && src.getCol() == 1 && dest.getRow() == 2 && dest.getCol() == 1)){
-            return getChessPieceAt(new ChessboardPoint(3, 1)) == null
+            if (getChessPieceAt(new ChessboardPoint(3, 1)) == null
                     && getChessPieceAt(new ChessboardPoint(4, 1)) == null
-                    && getChessPieceAt(new ChessboardPoint(5, 1)) == null;
+                    && getChessPieceAt(new ChessboardPoint(5, 1)) == null){
+                return true;
+            }
         }
         if ((src.getRow() == 2 && src.getCol() == 2 && dest.getRow() == 6 && dest.getCol() == 2)
                 || (src.getRow() == 6 && src.getCol() == 2 && dest.getRow() == 2 && dest.getCol() == 2)){
-            return getChessPieceAt(new ChessboardPoint(3, 2)) == null
-                    && getChessPieceAt(new ChessboardPoint(4, 2)) == null
-                    && getChessPieceAt(new ChessboardPoint(5, 2)) == null;
+           if (getChessPieceAt(new ChessboardPoint(3, 2)) == null
+                   && getChessPieceAt(new ChessboardPoint(4, 2)) == null
+                   && getChessPieceAt(new ChessboardPoint(5, 2)) == null){
+               return true;
+           }
         }
         if ((src.getRow() == 2 && src.getCol() == 4 && dest.getRow() == 6 && dest.getCol() == 4)
                 || (src.getRow() == 6 && src.getCol() == 4 && dest.getRow() == 2 && dest.getCol() == 4)){
-            return getChessPieceAt(new ChessboardPoint(3, 4)) == null
+            if (getChessPieceAt(new ChessboardPoint(3, 4)) == null
                     && getChessPieceAt(new ChessboardPoint(4, 4)) == null
-                    && getChessPieceAt(new ChessboardPoint(5, 4)) == null;
+                    && getChessPieceAt(new ChessboardPoint(5, 4)) == null){
+                return true;
+            }
         }
         if ((src.getRow() == 2 && src.getCol() == 5 && dest.getRow() == 6 && dest.getCol() == 5)
                 || (src.getRow() == 6 && src.getCol() == 5 && dest.getRow() == 2 && dest.getCol() == 5)){
-            return getChessPieceAt(new ChessboardPoint(3, 5)) == null
+            if (getChessPieceAt(new ChessboardPoint(3, 5)) == null
                     && getChessPieceAt(new ChessboardPoint(4, 5)) == null
-                    && getChessPieceAt(new ChessboardPoint(5, 5)) == null;
+                    && getChessPieceAt(new ChessboardPoint(5, 5)) == null){
+                return true;
+            }
         }
         return false;
     }

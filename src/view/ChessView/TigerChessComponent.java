@@ -36,10 +36,9 @@ public class TigerChessComponent extends All{
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                ImageIcon pic = new ImageIcon("resource\\RTiger.png");
-                if (owner == PlayerColor.BLUE){
-                    pic = new ImageIcon("resource\\BTiger.png");
-                }
+                ImageIcon pic = new ImageIcon();
+                if (owner == PlayerColor.RED) pic = new ImageIcon("resource\\RTiger.png");
+                if (owner == PlayerColor.BLUE) pic = new ImageIcon("resource\\BTiger.png");
                 Image image = pic.getImage();
                 pic = new ImageIcon(image.getScaledInstance(size,size,Image.SCALE_SMOOTH));
                 JLabel label = new JLabel(pic);
