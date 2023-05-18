@@ -89,7 +89,6 @@ public class GameController implements GameListener {
                 model.captureChessPiece(selectedPoint,point);
                 view.removeChessComponentAtGrid(point);
                 view.setChessComponentAtGrid(point, view.removeChessComponentAtGrid(selectedPoint));
-                selectedPoint = null;
                 model.intrap(point,currentPlayer);
                 win();
                 swapColor();

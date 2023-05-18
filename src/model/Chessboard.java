@@ -96,7 +96,6 @@ public class Chessboard {
         }
     }
     public void outrap(ChessboardPoint point){
-        if (trapCellr.contains(point)||trapCellb.contains(point)){
             if (getChessPieceAt(point)!=null){
             if (getGridAt(point).getPiece().getName().equals("Rat"))getGridAt(point).getPiece().setRank(1);
             if (getGridAt(point).getPiece().getName().equals("Cat"))getGridAt(point).getPiece().setRank(2);
@@ -106,7 +105,7 @@ public class Chessboard {
             if (getGridAt(point).getPiece().getName().equals("Tiger"))getGridAt(point).getPiece().setRank(6);
             if (getGridAt(point).getPiece().getName().equals("Lion"))getGridAt(point).getPiece().setRank(7);
             if (getGridAt(point).getPiece().getName().equals("Elephant"))getGridAt(point).getPiece().setRank(8);
-        }}
+        }
     }
 
     private void setChessPiece(ChessboardPoint point, ChessPiece chessPiece) {
@@ -225,28 +224,26 @@ public class Chessboard {
             return ((b && !isRiver(dest)) || canJumpRiver(src, dest)) && eaten.rank <= 6;
         }
         if (eat.getName().equals("Leopard")){
-            return b && !isRiver(dest) && eat.rank <= 5;
+            return b && !isRiver(dest) && eaten.rank <= 5;
         }
         if (eat.getName().equals("Wolf")){
-            return b && !isRiver(dest) && eat.rank <= 4;
+            return b && !isRiver(dest) && eaten.rank <= 4;
         }
         if (eat.getName().equals("Dog")){
-            return b && !isRiver(dest) && eat.rank <= 3;
+            return b && !isRiver(dest) && eaten.rank <= 3;
         }
         if (eat.getName().equals("Cat")){
-            return b && !isRiver(dest) && eat.rank <= 2;
+            return b && !isRiver(dest) && eaten.rank <= 2;
         }
         if (eat.getName().equals("Rat")){
-            return b && (eat.rank <= 1 || eat.rank == 8) && !(isRiver(src) && !isRiver(dest));
+            return b && (eaten.rank <= 1 || eaten.rank == 8) && !(isRiver(src) && !isRiver(dest));
         }
         return false;
     }
     private boolean isRiver(ChessboardPoint point){
         if (point.getCol()>=1&&point.getCol()<=2&&point.getRow()>=3&&point.getRow()<=5)
             return true;
-        if (point.getCol()>=4&&point.getCol()<=5&&point.getRow()>=3&&point.getRow()<=5)
-            return true;
-        return false;
+        return point.getCol() >= 4 && point.getCol() <= 5 && point.getRow() >= 3 && point.getRow() <= 5;
     }
 
     private boolean isOwnDens(ChessboardPoint point, PlayerColor color){
