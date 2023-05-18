@@ -8,8 +8,8 @@
 2	6	Red	Elephant	8
 6	0	Blue	Elephant	8
 6	2	Blue	Wolf	4
-6	3	Blue	Leopard	5
-6	6	Blue	Rat	1
+6	4	Blue	Leopard	5
+6	5	Blue	Rat	1
 7	1	Blue	Cat	2
 7	5	Blue	Dog	3
 8	0	Blue	Tiger	6

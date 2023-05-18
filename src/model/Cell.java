@@ -18,6 +18,6 @@ public class Cell implements Serializable {
     }
 
     public void removePiece() {
-        this.piece = null;
+       this.piece = null;
     }
 }

@@ -1,7 +1,7 @@
 import controller.GameController;
 import model.Chessboard;
 import view.ChessGameFrame;
-
+import view.ChessboardComponent;
 import javax.swing.*;
 
 public class Main {

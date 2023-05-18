@@ -15,11 +15,12 @@ public class GameController implements GameListener {
 
 
     private Chessboard model;
-    private ChessboardComponent view;
+    public ChessboardComponent view;
     private PlayerColor currentPlayer;
     public PlayerColor Winner;
     private ChessboardPoint selectedPoint;
     public int turn;
+    public int Undochance;
 
     public GameController(ChessboardComponent view, Chessboard model) {
         this.view = view;
@@ -32,7 +33,7 @@ public class GameController implements GameListener {
     }
 
     private void initialize() {
-        turn=0;
+        turn=0;Undochance=3;
         for (File file : new File("resource\\autosave").listFiles()) {
             file.delete();
         }
@@ -46,6 +47,7 @@ public class GameController implements GameListener {
     public void swapColor() {
         currentPlayer = currentPlayer == PlayerColor.BLUE ? PlayerColor.RED : PlayerColor.BLUE;
     }
+
     public boolean win() {
         if (model.grid[0][3]!=null||model.redOver.toArray().length==8){
             Winner=PlayerColor.BLUE;return true;

@@ -23,7 +23,7 @@ import static model.Constant.CHESSBOARD_ROW_SIZE;
  */
 public class ChessboardComponent extends JComponent {
     private final CellComponent[][] gridComponents = new CellComponent[CHESSBOARD_ROW_SIZE.getNum()][CHESSBOARD_COL_SIZE.getNum()];
-    private final int CHESS_SIZE;
+    public final int CHESS_SIZE;
     private final Set<ChessboardPoint> riverCell = new HashSet<>();
     private Set<ChessboardPoint> trapCell = new HashSet<>();
     private Set<ChessboardPoint> denCell = new HashSet<>();
@@ -137,14 +137,8 @@ public class ChessboardComponent extends JComponent {
                     cell = new CellComponent(Color.CYAN, calculatePoint(i, j), CHESS_SIZE);
                     this.add(cell);
                 } else if (trapCell.contains(temp)) {//添加图片
-                    ImageIcon pic = new ImageIcon("resource\\Trap.png");
-                    Image image = pic.getImage();
-                    pic = new ImageIcon(image.getScaledInstance(CHESS_SIZE, CHESS_SIZE, Image.SCALE_REPLICATE));
-                    JLabel label = new JLabel(pic);
-                    label.setSize(CHESS_SIZE, CHESS_SIZE);
                     cell = new CellComponent(Color.GREEN, calculatePoint(i, j), CHESS_SIZE);
                     this.add(cell);
-                    add(label);
                 } else {
                     cell = new CellComponent(Color.LIGHT_GRAY, calculatePoint(i, j), CHESS_SIZE);
                     this.add(cell);
@@ -200,7 +194,7 @@ public class ChessboardComponent extends JComponent {
         return new ChessboardPoint(point.y / CHESS_SIZE, point.x / CHESS_SIZE);
     }
 
-    private Point calculatePoint(int row, int col) {
+    public Point calculatePoint(int row, int col) {
         return new Point(col * CHESS_SIZE, row * CHESS_SIZE);
     }
 
@@ -225,6 +219,17 @@ public class ChessboardComponent extends JComponent {
         }
     }
 
+    public Set<ChessboardPoint> getRiverCell() {
+        return riverCell;
+    }
+
+    public Set<ChessboardPoint> getTrapCell() {
+        return trapCell;
+    }
+
+    public Set<ChessboardPoint> getDenCell() {
+        return denCell;
+    }
 }
 
 
