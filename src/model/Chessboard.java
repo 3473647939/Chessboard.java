@@ -1,6 +1,7 @@
 package model;
 
 
+import controller.AI;
 import model.*;
 
 import java.util.ArrayList;
@@ -353,5 +354,71 @@ public class Chessboard {
         }
         return false;
     }
-
+    public ArrayList<ChessboardPoint> getLegalMovePoints(ChessboardPoint point){
+        ArrayList<ChessboardPoint> goodPoint = new ArrayList<>();
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 7; j++) {
+                ChessboardPoint des = new ChessboardPoint(i,j);
+                if (isValidMove(point,des)||isValidCapture(point,des)) goodPoint.add(des);
+            }
+        }
+        return goodPoint;
+    }
+    public ArrayList<ChessboardPoint> getLegalPoints(PlayerColor color){
+        ArrayList<ChessboardPoint> goodPoint = new ArrayList<>();
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 7; j++) {
+                ChessboardPoint point = new ChessboardPoint(i,j);
+                if (getChessPieceAt(point)!=null&&getChessPieceAt(point).getOwner()==color){
+                    goodPoint.add(point);
+                }
+            }
+        }
+        return goodPoint;
+    }
+    public ArrayList<Go> getLegalGo(PlayerColor color){
+        ArrayList<Go>  goodGo = new ArrayList<>();
+        ArrayList<ChessboardPoint> goodPoint = getLegalPoints(color);
+        for (ChessboardPoint point : goodPoint){
+            ArrayList<ChessboardPoint> legalMove = getLegalMovePoints(point);
+            for (ChessboardPoint des:legalMove){
+                goodGo.add(new Go(point,des,color,getChessPieceAt(point)));
+            }
+        }
+        return goodGo;
+    }
+    public ArrayList<Go> achieveAI2(PlayerColor color){
+        ArrayList<Go> legalGoes = new ArrayList<>();
+        ArrayList<ChessboardPoint> legalPoints = getLegalPoints(color);
+        for (ChessboardPoint e:legalPoints){
+            ArrayList<ChessboardPoint> legalMovePoint = getLegalMovePoints(e);
+            for (ChessboardPoint des : legalMovePoint){
+                Go go = new Go(e,des,color,getChessPieceAt(e));
+                if (color == PlayerColor.RED){
+                    go.setValue(des.getRow()-e.getRow()+Math.abs(3-e.getCol())-Math.abs(3-des.getCol()));
+                }else {
+                    go.setValue(e.getRow()-des.getRow()+Math.abs(3-e.getCol())-Math.abs(3-des.getCol()));
+                }
+                if (color==PlayerColor.RED){
+                    if (getGridAt(des)==grid[8][3]) go.setValue(99999);
+                }else {
+                    if (getGridAt(des)==grid[0][3]) go.setValue(99999);
+                }
+                legalGoes.add(go);
+            }
+        }return legalGoes;
+    }
+    public ArrayList<Go> achieveAI3(PlayerColor color){
+        ArrayList<Go> legalGoes = new ArrayList<>();
+        ArrayList<ChessboardPoint> legalPoints = getLegalPoints(color);
+        for (ChessboardPoint e:legalPoints){
+            ArrayList<ChessboardPoint> legalMovePoint = getLegalMovePoints(e);
+            for (ChessboardPoint des : legalMovePoint){
+                Go go = new Go(e,des,color,getChessPieceAt(e));
+                if (getChessPieceAt(des)!=null){
+                    go.setValue(go.getValue()+getChessPieceAt(des).getRank());
+                }legalGoes.add(go);
+            }
+        }return legalGoes;
+    }
 }

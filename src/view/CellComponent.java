@@ -10,6 +10,7 @@ import java.awt.*;
 
 public class CellComponent extends JPanel {
     private Color background;
+    private boolean seUI;
 
     public CellComponent(Color background, Point location, int size) {
         setLayout(new GridLayout(1,1));
@@ -24,4 +25,5 @@ public class CellComponent extends JPanel {
         g.setColor(background);
         g.fillRect(1, 1, this.getWidth()-1, this.getHeight()-1);
     }
+    public void setSeUI(boolean seUI){this.seUI = seUI;}
 }

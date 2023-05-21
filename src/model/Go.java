@@ -5,6 +5,8 @@ public class Go {
     public ChessboardPoint des;
     public PlayerColor color;
     public ChessPiece captured;
+    public int value;
+    public ChessboardPoint presPoint;
 
     public Go(ChessboardPoint src, ChessboardPoint des, PlayerColor color){
         this.src = src;
@@ -19,6 +21,13 @@ public class Go {
         this.color = color;
         this.captured = captured;
     }
+    public Go getGo(){
+        return new Go(src,des,color,captured);
+    }
+    public void setPresPoint(ChessboardPoint c){
+        this.presPoint = presPoint;
+    }
+    public ChessboardPoint getPresPoint(){return presPoint;}
 
     @Override
     public String toString(){
@@ -31,5 +40,7 @@ public class Go {
                     "("+src.getRow()+","+src.getCol()+")"+"("+des.getRow()+","+
                     des.getCol()+")"+captured.getName();
     }
+    public void setValue(int value){this.value = value;}
+    public int getValue(){return value;}
 }
 
