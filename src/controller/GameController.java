@@ -44,8 +44,7 @@ public class GameController implements GameListener {
             Go aiGo = ai.AIGo(currentPlayer);
             if (aiGo!=null){
                 view.setAiPlay(true);
-                selectedPoint = aiGo.getPresPoint();
-                view.showSelectedPoint(selectedPoint);
+                selectedPoint = aiGo.src;
                 model.moveChessPiece(selectedPoint,aiGo.des);
                 view.setChessComponentAtGrid(aiGo.des, view.removeChessComponentAtGrid(selectedPoint));
                 model.intrap(aiGo.des,currentPlayer);
@@ -96,11 +95,9 @@ public class GameController implements GameListener {
             model.outrap(selectedPoint);
             selectedPoint = null;
             win();
-            if (level==Level.TwoPlayers) {
-                swapColor();
-            }else {
+            swapColor();
+            if (level!=Level.TwoPlayers)
                 aiStart();
-            }
             view.repaint();
             turn++;
             view.autosave(turn);
@@ -126,6 +123,7 @@ public class GameController implements GameListener {
                 view.setChessComponentAtGrid(point, view.removeChessComponentAtGrid(selectedPoint));
                 model.intrap(point,currentPlayer);
                 win();
+                if (level==Level.TwoPlayers)
                 swapColor();
                 view.repaint();
                 turn++;

@@ -24,9 +24,7 @@ public class Go {
     public Go getGo(){
         return new Go(src,des,color,captured);
     }
-    public void setPresPoint(ChessboardPoint c){
-        this.presPoint = presPoint;
-    }
+
     public ChessboardPoint getPresPoint(){return presPoint;}
 
     @Override
