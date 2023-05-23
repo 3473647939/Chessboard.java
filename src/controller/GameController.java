@@ -55,6 +55,7 @@ public class GameController implements GameListener {
                 win();
                 view.repaint();
                 turn++;tchange=true;
+
                 view.autosave(turn);
                 swapColor();
             }
