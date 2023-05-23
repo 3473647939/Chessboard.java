@@ -71,7 +71,7 @@ public class Chessboard {
                 grid[6][6].setPiece(new ChessPiece(PlayerColor.BLUE, "Rat", 1));
                 grid[2][0].setPiece(new ChessPiece(PlayerColor.RED, "Rat", 1));
             }
-    private ChessPiece getChessPieceAt(ChessboardPoint point) {
+    public ChessPiece getChessPieceAt(ChessboardPoint point) {
         return getGridAt(point).getPiece();
     }
     public Cell getGridAt(ChessboardPoint point) {
@@ -108,7 +108,7 @@ public class Chessboard {
         }
     }
 
-    private void setChessPiece(ChessboardPoint point, ChessPiece chessPiece) {
+    public void setChessPiece(ChessboardPoint point, ChessPiece chessPiece) {
         getGridAt(point).setPiece(chessPiece);
         if (isOpponentTrap(point, chessPiece.getOwner())){
             chessPiece.rank = 0;
