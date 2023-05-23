@@ -23,7 +23,7 @@ public class GameController implements GameListener {
     public int turn;
     public Level level;
     public AI ai;
-    private ArrayList<ChessboardComponent> validMoves;
+    private ArrayList<ChessboardPoint> validMoves;
 
     public GameController(ChessboardComponent view, Chessboard model,Level level) {
         this.view = view;
@@ -89,7 +89,6 @@ public class GameController implements GameListener {
     @Override
     public void onPlayerClickCell(ChessboardPoint point, CellComponent component) {
         if (selectedPoint != null && model.isValidMove(selectedPoint, point)) {
-            view.showSelectedPoint(selectedPoint);
             model.moveChessPiece(selectedPoint, point);
             view.setChessComponentAtGrid(point, view.removeChessComponentAtGrid(selectedPoint));
             model.intrap(point,currentPlayer);
@@ -111,11 +110,13 @@ public class GameController implements GameListener {
             if (model.getChessPieceOwner(point).equals(currentPlayer)) {
                 selectedPoint = point;
                 component.setSelected(true);
+                showLegalMove(point);
                 component.repaint();
             }
         } else if (selectedPoint.equals(point)) {
             selectedPoint = null;
             component.setSelected(false);
+            closeLegalMove(point);
             component.repaint();
         } else if(point!=null){
             if (model.isValidCapture(selectedPoint, point)) {
@@ -126,6 +127,7 @@ public class GameController implements GameListener {
                 win();
                 if (level==Level.TwoPlayers)
                 swapColor();
+                component.repaint();
                 view.repaint();
                 turn++;
                 view.autosave(turn);
@@ -135,6 +137,7 @@ public class GameController implements GameListener {
                 component.repaint();
             }
         }
+
     }
 
     public Chessboard getModel() {
@@ -148,5 +151,14 @@ public class GameController implements GameListener {
     public Object getCurrentPlayer() {
         return currentPlayer;
     }
+    public void showLegalMove(ChessboardPoint point){
+        validMoves = model.getLegalMovePoints(point);
+        view.showLegalMove(validMoves);
+    }
+    public void closeLegalMove(ChessboardPoint point){
+        validMoves = model.getLegalMovePoints(point);
+        view.closeLegalMove(validMoves);
+    }
+//Ai 吃子 ，bug， 显示bug
 
 }

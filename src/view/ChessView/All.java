@@ -1,4 +1,5 @@
 package view.ChessView;
+import model.ChessPiece;
 import model.PlayerColor;
 
 import javax.swing.*;
@@ -27,8 +28,8 @@ public class All extends JComponent {
             RoundRectangle2D roundedRectangle = new RoundRectangle2D.Double(1, 1,
                     this.getWidth() - 1, this.getHeight() - 1, size / 4, size / 4);
             g2d.fill(roundedRectangle);
+
         }
-
-
     }
-}
+    }
+
