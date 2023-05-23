@@ -3,11 +3,12 @@ package controller;
 import model.*;
 import javax.swing.*;
 import javax.swing.filechooser.FileSystemView;
+import java.awt.*;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-public class Load {
+public class Load extends Component {
     public void load(GameController gameController) {
         File file = new File("Save");//选择存档
         FileSystemView fsv = FileSystemView.getFileSystemView();
@@ -63,12 +64,14 @@ public class Load {
                 gameController.view.repaint();
                 try {//设定操作方
                     String player = br.readLine();
-                    PlayerColor playerColor;
+                    PlayerColor playerColor =null;
                     if (player.equals("Blue")) {
                         playerColor = PlayerColor.BLUE;
-                    } else {
+                    }
+                    else if (player.equals("Red")){
                         playerColor = PlayerColor.RED;
                     }
+                    else {JOptionPane.showMessageDialog(this,"无法读取行动方");}
                     gameController.setCurrentPlayer(playerColor);
                     br.close();
                 } catch (IOException e) {

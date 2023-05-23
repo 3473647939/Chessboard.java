@@ -2,7 +2,6 @@ import controller.GameController;
 import controller.Level;
 import model.Chessboard;
 import view.ChessGameFrame;
-import view.ChessboardComponent;
 import javax.swing.*;
 
 public class Main {
@@ -13,6 +12,7 @@ public class Main {
             mainFrame.setVisible(true);
             mainFrame.addSaveButton(gameController);
             mainFrame.addLoadButton(gameController);
+            mainFrame.addTurns(gameController);
         });
     }
 }

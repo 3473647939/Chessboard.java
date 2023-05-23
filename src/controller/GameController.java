@@ -7,6 +7,7 @@ import view.CellComponent;
 import view.ChessView.All;
 import view.ChessboardComponent;
 
+import javax.swing.*;
 import java.io.File;
 import java.util.ArrayList;
 
@@ -14,12 +15,12 @@ public class GameController implements GameListener {
 
 
     private Chessboard model;
+
     public ChessboardComponent view;
     private PlayerColor currentPlayer;
     public PlayerColor Winner;
     private ChessboardPoint selectedPoint;
     public int turn;
-    public int Undochance;
     public Level level;
     public AI ai;
     private ArrayList<ChessboardComponent> validMoves;
@@ -60,7 +61,7 @@ public class GameController implements GameListener {
     }
 
     private void initialize() {
-        turn=0;Undochance=3;
+        turn=0;
         for (File file : new File("resource\\autoSave").listFiles()) {
             file.delete();
         }
