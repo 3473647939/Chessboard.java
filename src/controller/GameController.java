@@ -10,6 +10,7 @@ import view.ChessboardComponent;
 import javax.swing.*;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class GameController implements GameListener {
 
@@ -55,8 +56,6 @@ public class GameController implements GameListener {
                 win();
                 view.repaint();
                 turn++;tchange=true;
-
-                view.autosave(turn);
                 swapColor();
             }
         }
@@ -64,9 +63,6 @@ public class GameController implements GameListener {
 
     private void initialize() {
         turn=0;
-        for (File file : new File("resource\\autoSave").listFiles()) {
-            file.delete();
-        }
         for (int i = 0; i < Constant.CHESSBOARD_ROW_SIZE.getNum(); i++) {
             for (int j = 0; j < Constant.CHESSBOARD_COL_SIZE.getNum(); j++) {
             }
@@ -102,7 +98,6 @@ public class GameController implements GameListener {
                 aiStart();
             view.repaint();
             turn++;tchange=true;
-            view.autosave(turn);
         }
     }
     // click a cell with a chess
@@ -132,7 +127,6 @@ public class GameController implements GameListener {
                 component.repaint();
                 view.repaint();
                 turn++;tchange=true;
-                view.autosave(turn);
             } else if (model.getChessPieceOwner(point).equals(currentPlayer)) {
                 selectedPoint = point;
                 component.setSelected(true);
