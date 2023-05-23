@@ -26,7 +26,8 @@ public class CellComponent extends JPanel {
         super.paintComponents(g);
         Graphics2D g2d = (Graphics2D) g;
         if (seUI){
-        g2d.setColor(Color.orange);}
+        g2d.setColor(Color.orange);
+        setSeUI(false);}
         else {
         g2d.setColor(background);}
         RoundRectangle2D roundedRectangle = new RoundRectangle2D.Double(1, 1, this.getWidth() - 1, this.getHeight() - 1,size/4 , size/4);
