@@ -7,10 +7,7 @@ import view.CellComponent;
 import view.ChessView.All;
 import view.ChessboardComponent;
 
-import javax.swing.*;
-import java.io.File;
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class GameController implements GameListener {
 
@@ -48,7 +45,12 @@ public class GameController implements GameListener {
             if (aiGo!=null){
                 view.setAiPlay(true);
                 selectedPoint = aiGo.src;
-                model.moveChessPiece(selectedPoint,aiGo.des);
+                if (model.getChessPieceAt(aiGo.des)==null){
+                model.moveChessPiece(selectedPoint,aiGo.des);}else {
+                    model.captureChessPiece(selectedPoint,aiGo.des);
+                    view.removeChessComponentAtGrid(aiGo.des);
+                }
+
                 view.setChessComponentAtGrid(aiGo.des, view.removeChessComponentAtGrid(selectedPoint));
                 model.intrap(aiGo.des,currentPlayer);
                 model.outrap(selectedPoint);
