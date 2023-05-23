@@ -12,7 +12,6 @@ public class ChessGameFrame extends JFrame {
     private final int WIDTH;
     private final int HEIGTH;
     private final int ONE_CHESS_SIZE;
-
     private ChessboardComponent chessboardComponent;
     private String Name;
 
@@ -101,5 +100,12 @@ public class ChessGameFrame extends JFrame {
             Load l=new Load();
             l.load(gameController);
         });
+    }
+    public void addTurns(GameController gameController){
+        JLabel turns=new JLabel("Turn: "+gameController.turn);
+        turns.setSize(200,60);
+        turns.setFont(new Font("Rockwell", Font.BOLD, 20));
+        turns.setLocation(HEIGTH,HEIGTH/10+300);
+        add(turns);
     }
 }
