@@ -148,7 +148,6 @@ public class GameController implements GameListener {
                 component.repaint();
             }
         }
-
     }
 
     public Chessboard getModel() {

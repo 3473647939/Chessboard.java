@@ -2,10 +2,16 @@ package view;
 
 import controller.GameController;
 import controller.Load;
+
 import controller.Save;
 import model.PlayerColor;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 
 public class ChessGameFrame extends JFrame {
     //    public final Dimension FRAME_SIZE ;
@@ -14,6 +20,12 @@ public class ChessGameFrame extends JFrame {
     private final int ONE_CHESS_SIZE;
     private ChessboardComponent chessboardComponent;
     private String Name;
+    private Clip clip;
+    private boolean isPlaying = true;
+    private JButton playBtn;
+
+
+
 
     public ChessGameFrame(int width, int height) {
         setTitle("2023 CS109 Project Demo"); //设置标题
@@ -36,10 +48,6 @@ public class ChessGameFrame extends JFrame {
     public void setChessboardComponent(ChessboardComponent chessboardComponent) {
         this.chessboardComponent = chessboardComponent;
     }
-
-    /**
-     * 在游戏面板中添加棋盘
-     */
     private void addChessboard() {
         chessboardComponent = new ChessboardComponent(ONE_CHESS_SIZE);
         chessboardComponent.setLocation(HEIGTH / 5, HEIGTH / 10);
@@ -102,4 +110,40 @@ public class ChessGameFrame extends JFrame {
         add(player);
         add(turns);
     }
+    public void addBgmButton(){
+        playBtn = new JButton("暂停音乐");
+        playBtn.setLocation(HEIGTH, HEIGTH / 10 + 360);
+        playBtn.setSize(200, 60);
+        playBtn.setFont(new Font("宋体", Font.BOLD, 20));
+        add(playBtn);
+        try {
+            File musicFile = new File("resource\\OCTOPATH TRAVELER II.wav");
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(musicFile);
+            clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        playBtn.addActionListener(e ->{
+        if (e.getSource() == playBtn) {
+            try {
+                if (!isPlaying) { // 如果当前没有正在播放，开始播放音乐
+                    File musicFile = new File("resource\\OCTOPATH TRAVELER II.wav");
+                    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(musicFile);
+                    clip = AudioSystem.getClip();
+                    clip.open(audioInputStream);
+                    clip.start();
+                    isPlaying = true;
+                    playBtn.setText("暂停播放"); // 按钮文本变为 "Pause"
+                } else { // 如果当前正在播放，暂停播放
+                    clip.close();
+                    isPlaying = false;
+                    playBtn.setText("播放音乐"); // 按钮文本变为 "Play"
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+    });}
 }

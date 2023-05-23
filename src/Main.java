@@ -14,6 +14,7 @@ public class Main {
             mainFrame.addLoadButton(gameController);
             mainFrame.addTurns(gameController);
             mainFrame.addRestartButton(gameController);
+            mainFrame.addBgmButton();
         });
     }
 }
