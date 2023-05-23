@@ -1,6 +1,7 @@
 package view;
 
 
+import controller.AI;
 import controller.GameController;
 import model.*;
 import view.ChessView.*;
@@ -12,6 +13,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -28,6 +30,7 @@ public class ChessboardComponent extends JComponent {
     private Set<ChessboardPoint> trapCell = new HashSet<>();
     private Set<ChessboardPoint> denCell = new HashSet<>();
     private GameController gameController;
+    private boolean aiPlay = false;
 
 
     public Set<ChessboardPoint> getTrapCell() {
@@ -235,7 +238,27 @@ public class ChessboardComponent extends JComponent {
             }
         }
     }
+    public boolean isAiPlay(){
+        return aiPlay;
+    }
+    public void setAiPlay(boolean b){
+        this.aiPlay = aiPlay;
+    }
 
+    public void showLegalMove(ArrayList<ChessboardPoint> legalMove){
+        for (ChessboardPoint e: legalMove){
+            CellComponent component = getGridComponentAt(e);
+            component.setSeUI(true);
+            component.repaint();
+        }
+    }
+    public void closeLegalMove(ArrayList<ChessboardPoint> legalMove){
+        for (ChessboardPoint e:legalMove){
+            CellComponent component = getGridComponentAt(e);
+            component.setSeUI(false);
+            component.repaint();
+        }
+    }
 }
 
 

@@ -8,6 +8,7 @@ import view.ChessView.All;
 import view.ChessboardComponent;
 
 import java.io.File;
+import java.util.ArrayList;
 
 public class GameController implements GameListener {
 
@@ -19,15 +20,43 @@ public class GameController implements GameListener {
     private ChessboardPoint selectedPoint;
     public int turn;
     public int Undochance;
+    public Level level;
+    public AI ai;
+    private ArrayList<ChessboardPoint> validMoves;
 
-    public GameController(ChessboardComponent view, Chessboard model) {
+    public GameController(ChessboardComponent view, Chessboard model,Level level) {
         this.view = view;
         this.model = model;
         this.currentPlayer = PlayerColor.BLUE;
+        this.level = level;
+
         view.registerController(this);
         initialize();
         view.initiateChessComponent(model);
         view.repaint();
+
+        if (level == Level.AI_Simple||level==Level.AI_Mid||level == Level.AI_LittleHard){
+            ai = new AI(model,level);
+        }
+    }
+    public void aiStart(){
+        if (ai!=null&&currentPlayer!=PlayerColor.BLUE){
+            Go aiGo = ai.AIGo(currentPlayer);
+            if (aiGo!=null){
+                view.setAiPlay(true);
+                selectedPoint = aiGo.src;
+                model.moveChessPiece(selectedPoint,aiGo.des);
+                view.setChessComponentAtGrid(aiGo.des, view.removeChessComponentAtGrid(selectedPoint));
+                model.intrap(aiGo.des,currentPlayer);
+                model.outrap(selectedPoint);
+                selectedPoint = null;
+                win();
+                view.repaint();
+                turn++;
+                view.autosave(turn);
+                swapColor();
+            }
+        }
     }
 
     private void initialize() {
@@ -66,6 +95,8 @@ public class GameController implements GameListener {
             selectedPoint = null;
             win();
             swapColor();
+            if (level!=Level.TwoPlayers)
+                aiStart();
             view.repaint();
             turn++;
             view.autosave(turn);
@@ -78,11 +109,13 @@ public class GameController implements GameListener {
             if (model.getChessPieceOwner(point).equals(currentPlayer)) {
                 selectedPoint = point;
                 component.setSelected(true);
+                showLegalMove(point);
                 component.repaint();
             }
         } else if (selectedPoint.equals(point)) {
             selectedPoint = null;
             component.setSelected(false);
+            closeLegalMove(point);
             component.repaint();
         } else if(point!=null){
             if (model.isValidCapture(selectedPoint, point)) {
@@ -91,7 +124,9 @@ public class GameController implements GameListener {
                 view.setChessComponentAtGrid(point, view.removeChessComponentAtGrid(selectedPoint));
                 model.intrap(point,currentPlayer);
                 win();
+                if (level==Level.TwoPlayers)
                 swapColor();
+                component.repaint();
                 view.repaint();
                 turn++;
                 view.autosave(turn);
@@ -101,6 +136,7 @@ public class GameController implements GameListener {
                 component.repaint();
             }
         }
+
     }
 
     public Chessboard getModel() {
@@ -114,4 +150,14 @@ public class GameController implements GameListener {
     public Object getCurrentPlayer() {
         return currentPlayer;
     }
+    public void showLegalMove(ChessboardPoint point){
+        validMoves = model.getLegalMovePoints(point);
+        view.showLegalMove(validMoves);
+    }
+    public void closeLegalMove(ChessboardPoint point){
+        validMoves = model.getLegalMovePoints(point);
+        view.closeLegalMove(validMoves);
+    }
+//Ai 吃子 ，bug， 显示bug
+
 }
