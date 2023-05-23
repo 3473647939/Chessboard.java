@@ -111,6 +111,7 @@ public class GameController implements GameListener {
                 component.setSelected(true);
                 showLegalMove(point);
                 component.repaint();
+
             }
         } else if (selectedPoint.equals(point)) {
             selectedPoint = null;
