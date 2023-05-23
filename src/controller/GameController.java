@@ -4,17 +4,21 @@ package controller;
 import listener.GameListener;
 import model.*;
 import view.CellComponent;
+import view.ChessGameFrame;
 import view.ChessView.All;
 import view.ChessboardComponent;
 
+import javax.swing.*;
+import java.awt.*;
+import java.io.File;
 import java.util.ArrayList;
 
 public class GameController implements GameListener {
 
 
     private Chessboard model;
-
     public ChessboardComponent view;
+    private ChessGameFrame chessGameFrame;
     private PlayerColor currentPlayer;
     public PlayerColor Winner;
     private ChessboardPoint selectedPoint;
@@ -22,13 +26,15 @@ public class GameController implements GameListener {
     public Level level;
     public AI ai;
     private ArrayList<ChessboardPoint> validMoves;
-    public boolean tchange;
+    private String winner;
+    public boolean tchange=false;
 
-    public GameController(ChessboardComponent view, Chessboard model,Level level) {
+    public GameController(ChessboardComponent view, Chessboard model,Level level,ChessGameFrame chessGameFrame) {
         this.view = view;
         this.model = model;
         this.currentPlayer = PlayerColor.BLUE;
         this.level = level;
+        this.chessGameFrame=chessGameFrame;
 
         view.registerController(this);
         initialize();
@@ -39,32 +45,39 @@ public class GameController implements GameListener {
             ai = new AI(model,level);
         }
     }
+    public void restart(){
+        view.registerController(this);
+        initialize();
+        view.initiateChessComponent(model);
+        view.repaint();
+    }
     public void aiStart(){
         if (ai!=null&&currentPlayer!=PlayerColor.BLUE){
             Go aiGo = ai.AIGo(currentPlayer);
             if (aiGo!=null){
                 view.setAiPlay(true);
                 selectedPoint = aiGo.src;
-                if (model.getChessPieceAt(aiGo.des)==null){
-                model.moveChessPiece(selectedPoint,aiGo.des);}else {
-                    model.captureChessPiece(selectedPoint,aiGo.des);
-                    view.removeChessComponentAtGrid(aiGo.des);
-                }
-
+                model.moveChessPiece(selectedPoint,aiGo.des);
                 view.setChessComponentAtGrid(aiGo.des, view.removeChessComponentAtGrid(selectedPoint));
                 model.intrap(aiGo.des,currentPlayer);
                 model.outrap(selectedPoint);
                 selectedPoint = null;
                 win();
+                turn++;chessGameFrame.getTurns().setText("回合数: "+turn);
+                swapColor();chessGameFrame.getPlayer().setText("当前玩家: "+getCurrentPlayer());
+                if (currentPlayer== PlayerColor.BLUE)chessGameFrame.getPlayer().setForeground(Color.blue);
+                if (currentPlayer==PlayerColor.RED)chessGameFrame.getPlayer().setForeground(Color.red);
                 view.repaint();
-                turn++;tchange=true;
-                swapColor();
+                view.autosave(turn);
             }
         }
     }
 
     private void initialize() {
         turn=0;
+        for (File file : new File("resource\\autoSave").listFiles()) {
+            file.delete();
+        }
         for (int i = 0; i < Constant.CHESSBOARD_ROW_SIZE.getNum(); i++) {
             for (int j = 0; j < Constant.CHESSBOARD_COL_SIZE.getNum(); j++) {
             }
@@ -77,13 +90,13 @@ public class GameController implements GameListener {
     }
 
     public boolean win() {
-        if (model.grid[0][3]!=null||model.redOver.toArray().length==8){
-            Winner=PlayerColor.BLUE;return true;
+        if (model.grid[0][3].getPiece()!=null||model.redOver.toArray().length==8){
+            Winner=PlayerColor.BLUE;winner="蓝方";return true;
         }
-        if (model.grid[8][3]!=null||model.blueOver.toArray().length==8){
-            Winner=PlayerColor.RED;return true;
+        if (model.grid[8][3].getPiece()!=null||model.blueOver.toArray().length==8){
+            Winner=PlayerColor.RED;winner="红方";return true;
         }
-        return false;//
+        else return false;
     }
     // click an empty cell
     @Override
@@ -94,12 +107,15 @@ public class GameController implements GameListener {
             model.intrap(point,currentPlayer);
             model.outrap(selectedPoint);
             selectedPoint = null;
-            win();
-            swapColor();
+            turn++;chessGameFrame.getTurns().setText("回合数: "+turn);
+            swapColor();chessGameFrame.getPlayer().setText("当前玩家: "+getCurrentPlayer());
+            if (currentPlayer== PlayerColor.BLUE)chessGameFrame.getPlayer().setForeground(Color.blue);
+            if (currentPlayer==PlayerColor.RED)chessGameFrame.getPlayer().setForeground(Color.red);
             if (level!=Level.TwoPlayers)
                 aiStart();
             view.repaint();
-            turn++;tchange=true;
+            if (win()){JOptionPane.showMessageDialog(null,winner+"胜利");}
+            view.autosave(turn);
         }
     }
     // click a cell with a chess
@@ -126,17 +142,19 @@ public class GameController implements GameListener {
                 model.intrap(point,currentPlayer);
                 win();
                 if (level==Level.TwoPlayers)
-                swapColor();
+                turn++;chessGameFrame.getTurns().setText("回合数: "+turn);
+                swapColor();chessGameFrame.getPlayer().setText("当前玩家: "+getCurrentPlayer());
+                if (currentPlayer== PlayerColor.BLUE)chessGameFrame.getPlayer().setForeground(Color.blue);
+                if (currentPlayer==PlayerColor.RED)chessGameFrame.getPlayer().setForeground(Color.red);
                 component.repaint();
                 view.repaint();
-                turn++;tchange=true;
+                view.autosave(turn);
             } else if (model.getChessPieceOwner(point).equals(currentPlayer)) {
                 selectedPoint = point;
                 component.setSelected(true);
                 component.repaint();
             }
         }
-
     }
 
     public Chessboard getModel() {
