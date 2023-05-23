@@ -24,6 +24,7 @@ public class GameController implements GameListener {
     public Level level;
     public AI ai;
     private ArrayList<ChessboardPoint> validMoves;
+    public boolean tchange;
 
     public GameController(ChessboardComponent view, Chessboard model,Level level) {
         this.view = view;
@@ -53,7 +54,7 @@ public class GameController implements GameListener {
                 selectedPoint = null;
                 win();
                 view.repaint();
-                turn++;
+                turn++;tchange=true;
                 view.autosave(turn);
                 swapColor();
             }
@@ -99,7 +100,7 @@ public class GameController implements GameListener {
             if (level!=Level.TwoPlayers)
                 aiStart();
             view.repaint();
-            turn++;
+            turn++;tchange=true;
             view.autosave(turn);
         }
     }
@@ -129,7 +130,7 @@ public class GameController implements GameListener {
                 swapColor();
                 component.repaint();
                 view.repaint();
-                turn++;
+                turn++;tchange=true;
                 view.autosave(turn);
             } else if (model.getChessPieceOwner(point).equals(currentPlayer)) {
                 selectedPoint = point;
@@ -160,5 +161,4 @@ public class GameController implements GameListener {
         view.closeLegalMove(validMoves);
     }
 //Ai 吃子 ，bug， 显示bug
-
 }

@@ -3,6 +3,7 @@ package view;
 import controller.GameController;
 import controller.Load;
 import controller.Save;
+import model.PlayerColor;
 
 import javax.swing.*;
 import java.awt.*;
@@ -74,7 +75,7 @@ public class ChessGameFrame extends JFrame {
     }
 
     public void addSaveButton(GameController gameController) {
-        JButton button = new JButton("Save");
+        JButton button = new JButton("存档");
         button.addActionListener((e) -> {
             this.Name = JOptionPane.showInputDialog("请输入存档名");
             Save s = new Save();
@@ -82,7 +83,7 @@ public class ChessGameFrame extends JFrame {
         });
         button.setLocation(HEIGTH, HEIGTH / 10 + 180);
         button.setSize(200, 60);
-        button.setFont(new Font("Rockwell", Font.BOLD, 20));
+        button.setFont(new Font("宋体", Font.BOLD, 20));
         add(button);
     }
     public void addRegretButton(GameController gameController){
@@ -91,10 +92,10 @@ public class ChessGameFrame extends JFrame {
     }
 
     public void addLoadButton(GameController gameController) {
-        JButton button = new JButton("Load");
+        JButton button = new JButton("读取存档");
         button.setLocation(HEIGTH, HEIGTH / 10 + 240);
         button.setSize(200, 60);
-        button.setFont(new Font("Rockwell", Font.BOLD, 20));
+        button.setFont(new Font("宋体", Font.BOLD, 20));
         add(button);
         button.addActionListener(e -> {
             Load l=new Load();
@@ -102,10 +103,18 @@ public class ChessGameFrame extends JFrame {
         });
     }
     public void addTurns(GameController gameController){
-        JLabel turns=new JLabel("Turn: "+gameController.turn);
-        turns.setSize(200,60);
-        turns.setFont(new Font("Rockwell", Font.BOLD, 20));
-        turns.setLocation(HEIGTH,HEIGTH/10+300);
+        JLabel turns=new JLabel("回合数: "+gameController.turn);
+        JLabel player=new JLabel("当前玩家: "+gameController.getCurrentPlayer());
+        turns.setSize(200,20);
+        player.setSize(250,20);
+        turns.setFont(new Font("宋体", Font.BOLD, 16));
+        player.setFont(new Font("宋体", Font.BOLD, 16));
+        turns.setLocation(HEIGTH,HEIGTH/10+50);
+        player.setLocation(HEIGTH,HEIGTH/10+80);
+        if (gameController.getCurrentPlayer()== PlayerColor.BLUE)player.setForeground(Color.blue);
+        if (gameController.getCurrentPlayer()==PlayerColor.RED)player.setForeground(Color.red);
+        turns.repaint();
+        add(player);
         add(turns);
     }
 }
