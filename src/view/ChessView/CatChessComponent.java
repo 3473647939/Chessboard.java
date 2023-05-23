@@ -40,7 +40,7 @@ public class CatChessComponent extends All {
             if (owner ==PlayerColor.RED) pic = new ImageIcon("resource\\RCat.png");
             if (owner == PlayerColor.BLUE) pic = new ImageIcon("resource\\BCat.png");
             Image image = pic.getImage();
-            pic = new ImageIcon(image.getScaledInstance(size*5/6,size*5/6,Image.SCALE_SMOOTH));
+            pic = new ImageIcon(image.getScaledInstance(size,size,Image.SCALE_SMOOTH));
             JLabel label = new JLabel(pic);
             label.setSize(size, size);
             add(label);
