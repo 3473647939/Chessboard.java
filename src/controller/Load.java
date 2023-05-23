@@ -1,18 +1,13 @@
 package controller;
 
 import model.*;
-import view.CellComponent;
 import javax.swing.*;
 import javax.swing.filechooser.FileSystemView;
-import java.awt.*;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-
 public class Load {
-    public Cell[][] grid;
-
     public void load(GameController gameController) {
         File file = new File("Save");//选择存档
         FileSystemView fsv = FileSystemView.getFileSystemView();
@@ -25,14 +20,8 @@ public class Load {
         if (JFileChooser.APPROVE_OPTION == result) {//重置棋盘
             for (int i = 0; i < Constant.CHESSBOARD_ROW_SIZE.getNum(); i++) {
                 for (int j = 0; j < Constant.CHESSBOARD_COL_SIZE.getNum(); j++) {
-                    ChessboardPoint temp = new ChessboardPoint(i, j);
-                    CellComponent cell;
-                    if (!gameController.view.getTrapCell().contains(temp)&&!gameController.view.getRiverCell().contains(temp)&&!gameController.view.getDenCell().contains(temp)){
-                        cell = new CellComponent(Color.LIGHT_GRAY, gameController.view.calculatePoint(i, j), gameController.view.CHESS_SIZE);
-                        gameController.view.add(cell);
-                    }
-                    grid[i][j].removePiece();
-                    gameController.view.repaint();
+                    ChessboardPoint chessboardPoint=new ChessboardPoint(i,j);
+                    if (gameController.getModel().getChessPieceAt(chessboardPoint)!=null)gameController.getModel().removeChessPiece(chessboardPoint);
                 }
             }
             long count;
@@ -66,11 +55,12 @@ public class Load {
                     String name = s.substring(s.indexOf("\t", 5) + 1, s.indexOf("\t", s.indexOf("\t", 5) + 1));
                     int rank = Integer.parseInt(s.substring(s.indexOf("\t", s.indexOf("\t", 5) + 1) + 1));
                     //转录到棋盘上
-                    grid[y][x].setPiece(new ChessPiece(playerColor, name, rank));
+                    ChessboardPoint chessboardPoint=new ChessboardPoint(y,x);
+                    gameController.getModel().setChessPiece(chessboardPoint,new ChessPiece(playerColor,name,rank));
                     //重置Component层
-                    gameController.view.initiateChessComponent(gameController.getModel());
-                    gameController.view.repaint();
                 }
+                gameController.view.initiateChessComponent(gameController.getModel());
+                gameController.view.repaint();
                 try {//设定操作方
                     String player = br.readLine();
                     PlayerColor playerColor;
@@ -80,6 +70,7 @@ public class Load {
                         playerColor = PlayerColor.RED;
                     }
                     gameController.setCurrentPlayer(playerColor);
+                    br.close();
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }

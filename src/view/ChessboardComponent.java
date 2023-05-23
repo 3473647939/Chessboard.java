@@ -244,20 +244,10 @@ public class ChessboardComponent extends JComponent {
     public void setAiPlay(boolean b){
         this.aiPlay = aiPlay;
     }
-
-    public void showLegalMove(ArrayList<ChessboardPoint> legalMove){
-        for (ChessboardPoint e: legalMove){
-            CellComponent component = getGridComponentAt(e);
-            component.setSeUI(true);
-            component.repaint();
-        }
-    }
-    public void closeLegalMove(ArrayList<ChessboardPoint> legalMove){
-        for (ChessboardPoint e:legalMove){
-            CellComponent component = getGridComponentAt(e);
-            component.setSeUI(false);
-            component.repaint();
-        }
+    public void showSelectedPoint(ChessboardPoint selectedPoint){
+        CellComponent component=  getGridComponentAt(selectedPoint);
+        component.setSeUI(true);
+        paintImmediately(this.getBounds());
     }
 }
 
