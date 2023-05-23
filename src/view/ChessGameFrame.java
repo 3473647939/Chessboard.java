@@ -23,8 +23,8 @@ public class ChessGameFrame extends JFrame {
     private Clip clip;
     private boolean isPlaying = true;
     private JButton playBtn;
-
-
+    private JLabel turns;
+    private JLabel player;
 
 
     public ChessGameFrame(int width, int height) {
@@ -97,8 +97,8 @@ public class ChessGameFrame extends JFrame {
         });
     }
     public void addTurns(GameController gameController){
-        JLabel turns=new JLabel("回合数: "+gameController.turn);
-        JLabel player=new JLabel("当前玩家: "+gameController.getCurrentPlayer());
+        turns=new JLabel("回合数: "+gameController.turn);
+        player=new JLabel("当前玩家: "+gameController.getCurrentPlayer());
         turns.setSize(200,20);
         player.setSize(250,20);
         turns.setFont(new Font("宋体", Font.BOLD, 16));
@@ -135,15 +135,23 @@ public class ChessGameFrame extends JFrame {
                     clip.open(audioInputStream);
                     clip.start();
                     isPlaying = true;
-                    playBtn.setText("暂停播放"); // 按钮文本变为 "Pause"
+                    playBtn.setText("暂停播放");
                 } else { // 如果当前正在播放，暂停播放
                     clip.close();
                     isPlaying = false;
-                    playBtn.setText("播放音乐"); // 按钮文本变为 "Play"
+                    playBtn.setText("播放音乐");
                 }
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
         }
     });}
+
+    public JLabel getTurns() {
+        return turns;
+    }
+
+    public JLabel getPlayer() {
+        return player;
+    }
 }

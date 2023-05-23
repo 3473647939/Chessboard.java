@@ -17,7 +17,6 @@ public class GameController implements GameListener {
 
 
     private Chessboard model;
-
     public ChessboardComponent view;
     private ChessGameFrame chessGameFrame;
     private PlayerColor currentPlayer;
@@ -28,12 +27,14 @@ public class GameController implements GameListener {
     public AI ai;
     private ArrayList<ChessboardPoint> validMoves;
     private String winner;
+    public boolean tchange=false;
 
-    public GameController(ChessboardComponent view, Chessboard model,Level level) {
+    public GameController(ChessboardComponent view, Chessboard model,Level level,ChessGameFrame chessGameFrame) {
         this.view = view;
         this.model = model;
         this.currentPlayer = PlayerColor.BLUE;
         this.level = level;
+        this.chessGameFrame=chessGameFrame;
 
         view.registerController(this);
         initialize();
@@ -62,10 +63,12 @@ public class GameController implements GameListener {
                 model.outrap(selectedPoint);
                 selectedPoint = null;
                 win();
+                turn++;chessGameFrame.getTurns().setText("回合数: "+turn);
+                swapColor();chessGameFrame.getPlayer().setText("当前玩家: "+getCurrentPlayer());
+                if (currentPlayer== PlayerColor.BLUE)chessGameFrame.getPlayer().setForeground(Color.blue);
+                if (currentPlayer==PlayerColor.RED)chessGameFrame.getPlayer().setForeground(Color.red);
                 view.repaint();
-                turn++;
                 view.autosave(turn);
-                swapColor();
             }
         }
     }
@@ -104,12 +107,14 @@ public class GameController implements GameListener {
             model.intrap(point,currentPlayer);
             model.outrap(selectedPoint);
             selectedPoint = null;
-            swapColor();
+            turn++;chessGameFrame.getTurns().setText("回合数: "+turn);
+            swapColor();chessGameFrame.getPlayer().setText("当前玩家: "+getCurrentPlayer());
+            if (currentPlayer== PlayerColor.BLUE)chessGameFrame.getPlayer().setForeground(Color.blue);
+            if (currentPlayer==PlayerColor.RED)chessGameFrame.getPlayer().setForeground(Color.red);
             if (level!=Level.TwoPlayers)
                 aiStart();
             view.repaint();
             if (win()){JOptionPane.showMessageDialog(null,winner+"胜利");}
-            turn++;
             view.autosave(turn);
         }
     }
@@ -137,10 +142,12 @@ public class GameController implements GameListener {
                 model.intrap(point,currentPlayer);
                 win();
                 if (level==Level.TwoPlayers)
-                swapColor();
+                turn++;chessGameFrame.getTurns().setText("回合数: "+turn);
+                swapColor();chessGameFrame.getPlayer().setText("当前玩家: "+getCurrentPlayer());
+                if (currentPlayer== PlayerColor.BLUE)chessGameFrame.getPlayer().setForeground(Color.blue);
+                if (currentPlayer==PlayerColor.RED)chessGameFrame.getPlayer().setForeground(Color.red);
                 component.repaint();
                 view.repaint();
-                turn++;
                 view.autosave(turn);
             } else if (model.getChessPieceOwner(point).equals(currentPlayer)) {
                 selectedPoint = point;

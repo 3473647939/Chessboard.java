@@ -8,7 +8,7 @@ public class Main {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             ChessGameFrame mainFrame = new ChessGameFrame(1100, 810);
-            GameController gameController = new GameController(mainFrame.getChessboardComponent(), new Chessboard(),Level.AI_Mid);
+            GameController gameController = new GameController(mainFrame.getChessboardComponent(), new Chessboard(),Level.TwoPlayers,mainFrame);
             mainFrame.setVisible(true);
             mainFrame.addSaveButton(gameController);
             mainFrame.addLoadButton(gameController);
