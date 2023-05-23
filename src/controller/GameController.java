@@ -4,13 +4,14 @@ package controller;
 import listener.GameListener;
 import model.*;
 import view.CellComponent;
+import view.ChessGameFrame;
 import view.ChessView.All;
 import view.ChessboardComponent;
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class GameController implements GameListener {
 
@@ -18,6 +19,7 @@ public class GameController implements GameListener {
     private Chessboard model;
 
     public ChessboardComponent view;
+    private ChessGameFrame chessGameFrame;
     private PlayerColor currentPlayer;
     public PlayerColor Winner;
     private ChessboardPoint selectedPoint;
@@ -25,7 +27,7 @@ public class GameController implements GameListener {
     public Level level;
     public AI ai;
     private ArrayList<ChessboardPoint> validMoves;
-    public boolean tchange;
+    private String winner;
 
     public GameController(ChessboardComponent view, Chessboard model,Level level) {
         this.view = view;
@@ -42,6 +44,12 @@ public class GameController implements GameListener {
             ai = new AI(model,level);
         }
     }
+    public void restart(){
+        view.registerController(this);
+        initialize();
+        view.initiateChessComponent(model);
+        view.repaint();
+    }
     public void aiStart(){
         if (ai!=null&&currentPlayer!=PlayerColor.BLUE){
             Go aiGo = ai.AIGo(currentPlayer);
@@ -55,7 +63,8 @@ public class GameController implements GameListener {
                 selectedPoint = null;
                 win();
                 view.repaint();
-                turn++;tchange=true;
+                turn++;
+                view.autosave(turn);
                 swapColor();
             }
         }
@@ -63,6 +72,9 @@ public class GameController implements GameListener {
 
     private void initialize() {
         turn=0;
+        for (File file : new File("resource\\autoSave").listFiles()) {
+            file.delete();
+        }
         for (int i = 0; i < Constant.CHESSBOARD_ROW_SIZE.getNum(); i++) {
             for (int j = 0; j < Constant.CHESSBOARD_COL_SIZE.getNum(); j++) {
             }
@@ -75,13 +87,13 @@ public class GameController implements GameListener {
     }
 
     public boolean win() {
-        if (model.grid[0][3]!=null||model.redOver.toArray().length==8){
-            Winner=PlayerColor.BLUE;return true;
+        if (model.grid[0][3].getPiece()!=null||model.redOver.toArray().length==8){
+            Winner=PlayerColor.BLUE;winner="蓝方";return true;
         }
-        if (model.grid[8][3]!=null||model.blueOver.toArray().length==8){
-            Winner=PlayerColor.RED;return true;
+        if (model.grid[8][3].getPiece()!=null||model.blueOver.toArray().length==8){
+            Winner=PlayerColor.RED;winner="红方";return true;
         }
-        return false;//
+        else return false;
     }
     // click an empty cell
     @Override
@@ -92,12 +104,13 @@ public class GameController implements GameListener {
             model.intrap(point,currentPlayer);
             model.outrap(selectedPoint);
             selectedPoint = null;
-            win();
             swapColor();
             if (level!=Level.TwoPlayers)
                 aiStart();
             view.repaint();
-            turn++;tchange=true;
+            if (win()){JOptionPane.showMessageDialog(null,winner+"胜利");}
+            turn++;
+            view.autosave(turn);
         }
     }
     // click a cell with a chess
@@ -126,7 +139,8 @@ public class GameController implements GameListener {
                 swapColor();
                 component.repaint();
                 view.repaint();
-                turn++;tchange=true;
+                turn++;
+                view.autosave(turn);
             } else if (model.getChessPieceOwner(point).equals(currentPlayer)) {
                 selectedPoint = point;
                 component.setSelected(true);

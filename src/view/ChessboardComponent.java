@@ -259,6 +259,7 @@ public class ChessboardComponent extends JComponent {
             component.repaint();
         }
     }
+
 }
 
 
