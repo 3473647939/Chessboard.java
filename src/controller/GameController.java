@@ -68,7 +68,6 @@ public class GameController implements GameListener {
                 if (currentPlayer== PlayerColor.BLUE)chessGameFrame.getPlayer().setForeground(Color.blue);
                 if (currentPlayer==PlayerColor.RED)chessGameFrame.getPlayer().setForeground(Color.red);
                 view.repaint();
-                view.autosave(turn);
             }
         }
     }
@@ -115,7 +114,7 @@ public class GameController implements GameListener {
                 aiStart();
             view.repaint();
             if (win()){JOptionPane.showMessageDialog(null,winner+"胜利");}
-            view.autosave(turn);
+
         }
     }
     // click a cell with a chess
@@ -148,7 +147,7 @@ public class GameController implements GameListener {
                 if (currentPlayer==PlayerColor.RED)chessGameFrame.getPlayer().setForeground(Color.red);
                 component.repaint();
                 view.repaint();
-                view.autosave(turn);
+                
             } else if (model.getChessPieceOwner(point).equals(currentPlayer)) {
                 selectedPoint = point;
                 component.setSelected(true);
