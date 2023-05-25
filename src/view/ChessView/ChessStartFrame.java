@@ -106,4 +106,3 @@ public class ChessStartFrame extends JFrame implements ActionListener {
 
 }
 
-

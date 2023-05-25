@@ -146,7 +146,6 @@ public class GameController implements GameListener {
                 view.removeChessComponentAtGrid(point);
                 view.setChessComponentAtGrid(point, view.removeChessComponentAtGrid(selectedPoint));
                 model.intrap(point,currentPlayer);
-
                 win();
                 if (level==Level.TwoPlayers)
                 turn++;
