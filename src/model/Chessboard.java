@@ -47,14 +47,12 @@ public class Chessboard {
         trapCellb.add(new ChessboardPoint(1, 3));
     }
 
-    private void initPieces() {
-
+    public void initPieces() {
         for (int i = 0; i < Constant.CHESSBOARD_ROW_SIZE.getNum(); i++) {
             for (int j = 0; j < Constant.CHESSBOARD_COL_SIZE.getNum(); j++) {
                 grid[i][j].removePiece();
             }
         }
-
                 grid[6][0].setPiece(new ChessPiece(PlayerColor.BLUE, "Elephant", 8));
                 grid[2][6].setPiece(new ChessPiece(PlayerColor.RED, "Elephant", 8));
                 grid[8][6].setPiece(new ChessPiece(PlayerColor.BLUE, "Lion", 7));

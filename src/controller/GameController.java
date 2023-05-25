@@ -46,10 +46,13 @@ public class GameController implements GameListener {
         }
     }
     public void restart(){
-        view.registerController(this);
+        this.currentPlayer = PlayerColor.BLUE;
+        this.model =new Chessboard();
+        this.view.initiateChessComponent(model);
+        chessGameFrame.getTurns().setText("回合数: "+0);
+        chessGameFrame.getPlayer().setText("当前玩家: "+getCurrentPlayer());
+        this.view.repaint();
         initialize();
-        view.initiateChessComponent(model);
-        view.repaint();
     }
     public void aiStart(){
         if (ai!=null&&currentPlayer!=PlayerColor.BLUE){
@@ -78,7 +81,6 @@ public class GameController implements GameListener {
 
     private void initialize() {
         turn=0;
-
         for (int i = 0; i < Constant.CHESSBOARD_ROW_SIZE.getNum(); i++) {
             for (int j = 0; j < Constant.CHESSBOARD_COL_SIZE.getNum(); j++) {
             }

@@ -66,14 +66,9 @@ public class ChessboardComponent extends JComponent {
         Cell[][] grid = chessboard.getGrid();
         for (int i = 0; i < CHESSBOARD_ROW_SIZE.getNum(); i++) {
             for (int j = 0; j < CHESSBOARD_COL_SIZE.getNum(); j++) {
-
-
-                if (grid[i][j].getPiece() != null) {
-                    ChessPiece chessPiece = grid[i][j].getPiece();
-                    System.out.println(chessPiece.getOwner());
                     if (grid[i][j].getPiece() != null) {
+                        gridComponents[i][j].removeAll();
                         ChessPiece chess = grid[i][j].getPiece();
-                        //System.out.println(chess.getOwner());
                         if (chess.getName().equals("Elephant")) {
                             gridComponents[i][j].add(new ElephantChessComponent(chess.getOwner(), CHESS_SIZE));
                         }
@@ -99,7 +94,7 @@ public class ChessboardComponent extends JComponent {
                             gridComponents[i][j].add(new RatChessComponent(chess.getOwner(), CHESS_SIZE));
                         }
                     }
-                }
+                    else gridComponents[i][j].removeAll();
             }
         }
     }
