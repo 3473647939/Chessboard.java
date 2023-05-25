@@ -46,15 +46,15 @@ public class Load extends Component {
                     }
                     int y = Integer.parseInt(s.substring(0, 1));
                     int x = Integer.parseInt(s.substring(2, 3));
-                    String color = s.substring(5, s.indexOf("\t", 5));
+                    String color = s.substring(5, s.indexOf(" ", 5));
                     PlayerColor playerColor;
                     if (color.equals("Blue")) {
                         playerColor = PlayerColor.BLUE;
                     } else {
                         playerColor = PlayerColor.RED;
                     }
-                    String name = s.substring(s.indexOf("\t", 5) + 1, s.indexOf("\t", s.indexOf("\t", 5) + 1));
-                    int rank = Integer.parseInt(s.substring(s.indexOf("\t", s.indexOf("\t", 5) + 1) + 1));
+                    String name = s.substring(s.indexOf(" ", 5) + 1, s.indexOf(" ", s.indexOf(" ", 5) + 1));
+                    int rank = Integer.parseInt(s.substring(s.indexOf(" ", s.indexOf(" ", 5) + 1) + 1));
                     //转录到棋盘上
                     ChessboardPoint chessboardPoint=new ChessboardPoint(y,x);
                     gameController.getModel().setChessPiece(chessboardPoint,new ChessPiece(playerColor,name,rank));

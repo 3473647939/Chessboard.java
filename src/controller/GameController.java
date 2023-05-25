@@ -147,7 +147,7 @@ public class GameController implements GameListener {
                 if (currentPlayer==PlayerColor.RED)chessGameFrame.getPlayer().setForeground(Color.red);
                 component.repaint();
                 view.repaint();
-                
+
             } else if (model.getChessPieceOwner(point).equals(currentPlayer)) {
                 selectedPoint = point;
                 component.setSelected(true);

@@ -19,7 +19,7 @@ public class Save {
                 for (int j = 0; j < 7; j++) {
                     Cell cell = gameController.getModel().getGrid()[i][j];
                     if (cell.getPiece() !=null) {
-                        bufferedWriter.write(i + "\t" + j + "\t" + (cell.getPiece().getOwner().equals(PlayerColor.BLUE) ?  "Blue":"Red" ) + "\t" + cell.getPiece().getName() + "\t" + cell.getPiece().getRank() + "\n");
+                        bufferedWriter.write(i + " " + j + " " + (cell.getPiece().getOwner().equals(PlayerColor.BLUE) ?  "Blue":"Red" ) + " " + cell.getPiece().getName() + " " + cell.getPiece().getRank() +" "+gameController.turn + "\n");
                     }
                 }
             }
