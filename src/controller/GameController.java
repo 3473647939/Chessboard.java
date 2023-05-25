@@ -54,6 +54,7 @@ public class GameController implements GameListener {
         if (currentPlayer== PlayerColor.BLUE)chessGameFrame.getPlayer().setForeground(Color.blue);
         if (currentPlayer==PlayerColor.RED)chessGameFrame.getPlayer().setForeground(Color.red);
         this.view.repaint();
+
         initialize();
     }
     public void aiStart(){
@@ -133,7 +134,6 @@ public class GameController implements GameListener {
                 component.setSelected(true);
                 showLegalMove(point);
                 component.repaint();
-
             }
         } else if (selectedPoint.equals(point)) {
             selectedPoint = null;
@@ -146,9 +146,11 @@ public class GameController implements GameListener {
                 view.removeChessComponentAtGrid(point);
                 view.setChessComponentAtGrid(point, view.removeChessComponentAtGrid(selectedPoint));
                 model.intrap(point,currentPlayer);
+
                 win();
                 if (level==Level.TwoPlayers)
                 turn++;
+                swapColor();
                 chessGameFrame.getTurns().setText("回合数: "+turn);
                 chessGameFrame.getPlayer().setText("当前玩家: "+getCurrentPlayer());
                 if (currentPlayer== PlayerColor.BLUE)chessGameFrame.getPlayer().setForeground(Color.blue);
