@@ -57,7 +57,11 @@ public class GameController implements GameListener {
             if (aiGo!=null){
                 view.setAiPlay(true);
                 selectedPoint = aiGo.src;
-                model.moveChessPiece(selectedPoint,aiGo.des);
+                if (model.getChessPieceAt(aiGo.des)==null){
+                    model.moveChessPiece(selectedPoint,aiGo.des);}else {
+                    model.captureChessPiece(selectedPoint,aiGo.des);
+                    view.removeChessComponentAtGrid(aiGo.des);
+                }
                 view.setChessComponentAtGrid(aiGo.des, view.removeChessComponentAtGrid(selectedPoint));
                 model.intrap(aiGo.des,currentPlayer);
                 model.outrap(selectedPoint);
@@ -74,9 +78,7 @@ public class GameController implements GameListener {
 
     private void initialize() {
         turn=0;
-        for (File file : new File("resource\\autoSave").listFiles()) {
-            file.delete();
-        }
+
         for (int i = 0; i < Constant.CHESSBOARD_ROW_SIZE.getNum(); i++) {
             for (int j = 0; j < Constant.CHESSBOARD_COL_SIZE.getNum(); j++) {
             }
@@ -107,7 +109,8 @@ public class GameController implements GameListener {
             model.outrap(selectedPoint);
             selectedPoint = null;
             turn++;chessGameFrame.getTurns().setText("回合数: "+turn);
-            swapColor();chessGameFrame.getPlayer().setText("当前玩家: "+getCurrentPlayer());
+            swapColor();
+            chessGameFrame.getPlayer().setText("当前玩家: "+getCurrentPlayer());
             if (currentPlayer== PlayerColor.BLUE)chessGameFrame.getPlayer().setForeground(Color.blue);
             if (currentPlayer==PlayerColor.RED)chessGameFrame.getPlayer().setForeground(Color.red);
             if (level!=Level.TwoPlayers)
@@ -141,8 +144,9 @@ public class GameController implements GameListener {
                 model.intrap(point,currentPlayer);
                 win();
                 if (level==Level.TwoPlayers)
-                turn++;chessGameFrame.getTurns().setText("回合数: "+turn);
-                swapColor();chessGameFrame.getPlayer().setText("当前玩家: "+getCurrentPlayer());
+                turn++;
+                chessGameFrame.getTurns().setText("回合数: "+turn);
+                chessGameFrame.getPlayer().setText("当前玩家: "+getCurrentPlayer());
                 if (currentPlayer== PlayerColor.BLUE)chessGameFrame.getPlayer().setForeground(Color.blue);
                 if (currentPlayer==PlayerColor.RED)chessGameFrame.getPlayer().setForeground(Color.red);
                 component.repaint();
