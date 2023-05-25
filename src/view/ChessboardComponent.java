@@ -84,7 +84,7 @@ public class ChessboardComponent extends JComponent {
                             gridComponents[i][j].add(new TigerChessComponent(chess.getOwner(), CHESS_SIZE));
                         }
                         if (chess.getName().equals("Leopard")) {
-                            gridComponents[i][j].add(new LionChessComponent(chess.getOwner(), CHESS_SIZE));
+                            gridComponents[i][j].add(new LeopardChessComponent(chess.getOwner(), CHESS_SIZE));
                         }
                         if (chess.getName().equals("Wolf")) {
                             gridComponents[i][j].add(new WolfChessComponent(chess.getOwner(), CHESS_SIZE));
