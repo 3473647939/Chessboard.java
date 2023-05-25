@@ -44,5 +44,10 @@ public class RatChessComponent extends All{
                 JLabel label = new JLabel(pic);
                 label.setSize(size, size);
                 add(label);
+                if (owner ==PlayerColor.RED){
+                    g.setColor(Color.RED);
+                    g.drawRoundRect(1, 1, this.getWidth() - 1, this.getHeight() - 1,size/4 , size/4);}else {
+                    g.setColor(Color.BLUE);
+                    g.drawRoundRect(1, 1, this.getWidth() - 1, this.getHeight() - 1,size/4 , size/4);}
             }
         }
