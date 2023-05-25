@@ -51,6 +51,8 @@ public class GameController implements GameListener {
         this.view.initiateChessComponent(model);
         chessGameFrame.getTurns().setText("回合数: "+0);
         chessGameFrame.getPlayer().setText("当前玩家: "+getCurrentPlayer());
+        if (currentPlayer== PlayerColor.BLUE)chessGameFrame.getPlayer().setForeground(Color.blue);
+        if (currentPlayer==PlayerColor.RED)chessGameFrame.getPlayer().setForeground(Color.red);
         this.view.repaint();
         initialize();
     }
@@ -182,4 +184,8 @@ public class GameController implements GameListener {
         view.closeLegalMove(validMoves);
     }
 //Ai 吃子 ，bug， 显示bug
+
+    public ChessGameFrame getChessGameFrame() {
+        return chessGameFrame;
+    }
 }
