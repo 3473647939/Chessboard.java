@@ -158,7 +158,7 @@ public class ChessboardComponent extends JComponent {
                     cell = new CellComponent(Color.LIGHT_GRAY, calculatePoint(i, j), CHESS_SIZE);
                     this.add(cell);
                 }
-                gridComponents[i][j] = cell;
+                gridComponents[i][j] = cell;//
             }
         }
     }
