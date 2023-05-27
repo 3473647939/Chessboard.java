@@ -4,12 +4,15 @@ import controller.GameController;
 import controller.Load;
 
 import controller.Save;
+import model.Cell;
 import model.PlayerColor;
 
 import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 
 public class ChessGameFrame extends JFrame {
@@ -95,6 +98,8 @@ public class ChessGameFrame extends JFrame {
             } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
                 ex.printStackTrace();
             }
+            Load l = new Load();
+            l.regret(gameController);
         });
         button.setLocation(HEIGTH, HEIGTH / 10 + 420);
         button.setSize(200, 60);

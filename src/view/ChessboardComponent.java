@@ -184,20 +184,22 @@ public class ChessboardComponent extends JComponent {
     private CellComponent getGridComponentAt(ChessboardPoint point) {
         return gridComponents[point.getRow()][point.getCol()];
     }
-    public void autosave(int k) {
-        File file = new File("resource\\autosave\\"+k+".txt");
+    public void autosave(GameController gameController, int k) {
+        File file = new File("resource\\autosave\\" +k + ".txt");
         try {
             FileWriter fileWriter = new FileWriter(file);
-            BufferedWriter bufferedWriter=new BufferedWriter(fileWriter);
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
             for (int i = 0; i < 9; i++) {
                 for (int j = 0; j < 7; j++) {
                     Cell cell = gameController.getModel().getGrid()[i][j];
-                    if (cell.getPiece() !=null) {
-                        bufferedWriter.write(i + "\t" + j + "\t" + (cell.getPiece().getOwner().equals(PlayerColor.BLUE) ?  "Blue":"Red" ) + "\t" + cell.getPiece().getName() + "\t" + cell.getPiece().getRank() + "\n");
+                    if (cell.getPiece() != null) {
+                        bufferedWriter.write(i + " " + j + " " + (cell.getPiece().getOwner().equals(PlayerColor.BLUE) ? "Blue" : "Red") + " " + cell.getPiece().getName() + " " + cell.getPiece().getRank() + " " + gameController.turn + "\n");
                     }
                 }
             }
-            bufferedWriter.write(gameController.getCurrentPlayer().equals(PlayerColor.BLUE)?"Blue":"Red");
+            bufferedWriter.write(gameController.getCurrentPlayer().equals(PlayerColor.BLUE) ? "Blue" : "Red");
+            bufferedWriter.write("\n"+gameController.getModel().redOver+"\n");
+            bufferedWriter.write(gameController.getModel().blueOver+"\n");
             bufferedWriter.close();
         } catch (IOException e) {
             e.printStackTrace();

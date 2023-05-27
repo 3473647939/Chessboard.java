@@ -29,66 +29,68 @@ public class GameController implements GameListener {
     public AI ai;
     private ArrayList<ChessboardPoint> validMoves;
     private String winner;
-    public boolean tchange=false;
 
-    public GameController(ChessboardComponent view, Chessboard model,Level level,ChessGameFrame chessGameFrame) {
+    public GameController(ChessboardComponent view, Chessboard model, Level level, ChessGameFrame chessGameFrame) {
         this.view = view;
         this.model = model;
         this.currentPlayer = PlayerColor.BLUE;
         this.level = level;
-        this.chessGameFrame=chessGameFrame;
+        this.chessGameFrame = chessGameFrame;
 
         view.registerController(this);
         initialize();
         view.initiateChessComponent(model);
         view.repaint();
 
-        if (level == Level.AI_Simple||level==Level.AI_Mid||level == Level.AI_LittleHard){
-            ai = new AI(model,level);
+        if (level == Level.AI_Simple || level == Level.AI_Mid || level == Level.AI_LittleHard) {
+            ai = new AI(model, level);
         }
     }
-    public void restart(){
-        this.currentPlayer = PlayerColor.BLUE;
-        this.model =new Chessboard();
-        this.ai = new AI(model,level);
-        this.view.initiateChessComponent(model);
-        chessGameFrame.getTurns().setText("回合数: "+0);
-        chessGameFrame.getPlayer().setText("当前玩家: "+getCurrentPlayer());
-        if (currentPlayer== PlayerColor.BLUE)chessGameFrame.getPlayer().setForeground(Color.blue);
-        if (currentPlayer==PlayerColor.RED)chessGameFrame.getPlayer().setForeground(Color.red);
-        this.view.repaint();
 
+    public void restart() {
+        this.currentPlayer = PlayerColor.BLUE;
+        this.model = new Chessboard();
+        this.ai = new AI(model, level);
+        this.view.initiateChessComponent(model);
+        chessGameFrame.getTurns().setText("回合数: " + 0);
+        chessGameFrame.getPlayer().setText("当前玩家: " + getCurrentPlayer());
+        if (currentPlayer == PlayerColor.BLUE) chessGameFrame.getPlayer().setForeground(Color.blue);
+        if (currentPlayer == PlayerColor.RED) chessGameFrame.getPlayer().setForeground(Color.red);
+        this.view.repaint();
         initialize();
     }
-    public void aiStart(){
-        if (ai!=null&&currentPlayer!=PlayerColor.BLUE){
+
+    public void aiStart() {
+        if (ai != null && currentPlayer != PlayerColor.BLUE) {
             Go aiGo = ai.AIGo(currentPlayer);
-            if (aiGo!=null){
+            if (aiGo != null) {
                 view.setAiPlay(true);
                 selectedPoint = aiGo.src;
-                if (model.getChessPieceAt(aiGo.des)==null){
-                    model.moveChessPiece(selectedPoint,aiGo.des);}else {
-                    model.captureChessPiece(selectedPoint,aiGo.des);
+                if (model.getChessPieceAt(aiGo.des) == null) {
+                    model.moveChessPiece(selectedPoint, aiGo.des);
+                } else {
+                    model.captureChessPiece(selectedPoint, aiGo.des);
                     view.removeChessComponentAtGrid(aiGo.des);
                 }
+                view.autosave(this, turn);
                 view.setChessComponentAtGrid(aiGo.des, view.removeChessComponentAtGrid(selectedPoint));
-                model.intrap(aiGo.des,currentPlayer);
+                model.intrap(aiGo.des, currentPlayer);
                 model.outrap(selectedPoint);
                 selectedPoint = null;
                 win();
                 turn++;
-                chessGameFrame.getTurns().setText("回合数: "+turn);
+                chessGameFrame.getTurns().setText("回合数: " + turn);
                 swapColor();
-                chessGameFrame.getPlayer().setText("当前玩家: "+getCurrentPlayer());
-                if (currentPlayer== PlayerColor.BLUE)chessGameFrame.getPlayer().setForeground(Color.blue);
-                if (currentPlayer==PlayerColor.RED)chessGameFrame.getPlayer().setForeground(Color.red);
+                chessGameFrame.getPlayer().setText("当前玩家: " + getCurrentPlayer());
+                if (currentPlayer == PlayerColor.BLUE) chessGameFrame.getPlayer().setForeground(Color.blue);
+                if (currentPlayer == PlayerColor.RED) chessGameFrame.getPlayer().setForeground(Color.red);
                 view.repaint();
             }
         }
     }
 
     private void initialize() {
-        turn=0;
+        turn = 0;
         for (File file : new File("resource\\autoSave").listFiles()) {
             file.delete();
         }
@@ -104,48 +106,57 @@ public class GameController implements GameListener {
     }
 
     public boolean win() {
-        if (model.grid[0][3].getPiece()!=null||model.redOver==8){
-            Winner=PlayerColor.BLUE;winner="蓝方";return true;
+        if (model.grid[0][3].getPiece() != null || model.redOver == 8) {
+            Winner = PlayerColor.BLUE;
+            winner = "蓝方";
+            return true;
         }
-        if (model.grid[8][3].getPiece()!=null||model.blueOver==8){
-            Winner=PlayerColor.RED;winner="红方";return true;
-        }
-        else return false;
+        if (model.grid[8][3].getPiece() != null || model.blueOver == 8) {
+            Winner = PlayerColor.RED;
+            winner = "红方";
+            return true;
+        } else return false;
     }
+
     // click an empty cell
     @Override
     public void onPlayerClickCell(ChessboardPoint point, CellComponent component) {
         if (selectedPoint != null && model.isValidMove(selectedPoint, point)) {
-                try {
-                    // 加载音频文件
-                    File soundFile = new File("resource\\voice.wav");
-                    AudioInputStream audioIn = AudioSystem.getAudioInputStream(soundFile);
-                    AudioFormat format = audioIn.getFormat();
-                    DataLine.Info info = new DataLine.Info(Clip.class, format);
-                    Clip clip = (Clip) AudioSystem.getLine(info);
-                    // 打开数据行并开始播放音频
-                    clip.open(audioIn);
-                    clip.start();
-                } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
-                    ex.printStackTrace();
-                }
+            try {
+                // 加载音频文件
+                File soundFile = new File("resource\\voice.wav");
+                AudioInputStream audioIn = AudioSystem.getAudioInputStream(soundFile);
+                AudioFormat format = audioIn.getFormat();
+                DataLine.Info info = new DataLine.Info(Clip.class, format);
+                Clip clip = (Clip) AudioSystem.getLine(info);
+                // 打开数据行并开始播放音频
+                clip.open(audioIn);
+                clip.start();
+            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
+                ex.printStackTrace();
+            }
+            view.autosave(this, turn);
             model.moveChessPiece(selectedPoint, point);
             view.setChessComponentAtGrid(point, view.removeChessComponentAtGrid(selectedPoint));
-            model.intrap(point,currentPlayer);
+            model.intrap(point, currentPlayer);
             model.outrap(selectedPoint);
             selectedPoint = null;
-            turn++;chessGameFrame.getTurns().setText("回合数: "+turn);
+            turn++;
             swapColor();
-            chessGameFrame.getPlayer().setText("当前玩家: "+getCurrentPlayer());
-            if (currentPlayer== PlayerColor.BLUE)chessGameFrame.getPlayer().setForeground(Color.blue);
-            if (currentPlayer==PlayerColor.RED)chessGameFrame.getPlayer().setForeground(Color.red);
-            if (level!=Level.TwoPlayers)
+            chessGameFrame.getPlayer().setText("当前玩家: " + getCurrentPlayer());
+            chessGameFrame.getTurns().setText("回合数: " + turn);
+            if (currentPlayer == PlayerColor.BLUE) chessGameFrame.getPlayer().setForeground(Color.blue);
+            if (currentPlayer == PlayerColor.RED) chessGameFrame.getPlayer().setForeground(Color.red);
+            if (level != Level.TwoPlayers)
                 aiStart();
             view.repaint();
-            if (win()){JOptionPane.showMessageDialog(null,winner+"胜利");}
+            if (win()) {
+                JOptionPane.showMessageDialog(null, winner + "胜利");
+            }
 
         }
     }
+
     // click a cell with a chess
     @Override
     public void onPlayerClickChessPiece(ChessboardPoint point, All component) {
@@ -174,26 +185,29 @@ public class GameController implements GameListener {
             component.setSelected(false);
             closeLegalMove(point);
             component.repaint();
-        } else if(point!=null){
+        } else if (point != null) {
             if (model.isValidCapture(selectedPoint, point)) {
-                model.captureChessPiece(selectedPoint,point);
+                view.autosave(this, turn);
+                model.captureChessPiece(selectedPoint, point);
                 view.removeChessComponentAtGrid(point);
                 view.setChessComponentAtGrid(point, view.removeChessComponentAtGrid(selectedPoint));
-                model.intrap(point,currentPlayer);
-                if (model.getChessPieceOwner(point)==PlayerColor.BLUE){
+                model.intrap(point, currentPlayer);
+                if (model.getChessPieceOwner(point) == PlayerColor.BLUE) {
                     model.redOver++;
                 }
-                if (model.getChessPieceOwner(point)==PlayerColor.RED){
+                if (model.getChessPieceOwner(point) == PlayerColor.RED) {
                     model.blueOver++;
                 }
-                if (win()){JOptionPane.showMessageDialog(null,winner+"胜利");}
+                if (win()) {
+                    JOptionPane.showMessageDialog(null, winner + "胜利");
+                }
+                if (level == Level.TwoPlayers)
+                    turn++;
                 swapColor();
-                if (level==Level.TwoPlayers)
-                turn++;
-                chessGameFrame.getTurns().setText("回合数: "+turn);
-                chessGameFrame.getPlayer().setText("当前玩家: "+getCurrentPlayer());
-                if (currentPlayer== PlayerColor.BLUE)chessGameFrame.getPlayer().setForeground(Color.blue);
-                if (currentPlayer==PlayerColor.RED)chessGameFrame.getPlayer().setForeground(Color.red);
+                chessGameFrame.getTurns().setText("回合数: " + turn);
+                chessGameFrame.getPlayer().setText("当前玩家: " + getCurrentPlayer());
+                if (currentPlayer == PlayerColor.BLUE) chessGameFrame.getPlayer().setForeground(Color.blue);
+                if (currentPlayer == PlayerColor.RED) chessGameFrame.getPlayer().setForeground(Color.red);
                 component.repaint();
                 view.repaint();
 
@@ -204,12 +218,13 @@ public class GameController implements GameListener {
                 component.setSelected(true);
                 component.repaint();
             }
-        }if (level!=Level.TwoPlayers)
+        }
+        if (level != Level.TwoPlayers)
             aiStart();
     }
 
     public Chessboard getModel() {
-        return  model;
+        return model;
     }
 
     public void setCurrentPlayer(PlayerColor currentPlayer) {
@@ -219,11 +234,13 @@ public class GameController implements GameListener {
     public Object getCurrentPlayer() {
         return currentPlayer;
     }
-    public void showLegalMove(ChessboardPoint point){
+
+    public void showLegalMove(ChessboardPoint point) {
         validMoves = model.getLegalMovePoints(point);
         view.showLegalMove(validMoves);
     }
-    public void closeLegalMove(ChessboardPoint point){
+
+    public void closeLegalMove(ChessboardPoint point) {
         validMoves = model.getLegalMovePoints(point);
         view.closeLegalMove(validMoves);
     }
