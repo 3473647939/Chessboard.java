@@ -8,9 +8,11 @@ import view.ChessGameFrame;
 import view.ChessView.All;
 import view.ChessboardComponent;
 
+import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class GameController implements GameListener {
@@ -48,6 +50,7 @@ public class GameController implements GameListener {
     public void restart(){
         this.currentPlayer = PlayerColor.BLUE;
         this.model =new Chessboard();
+        this.ai = new AI(model,level);
         this.view.initiateChessComponent(model);
         chessGameFrame.getTurns().setText("回合数: "+0);
         chessGameFrame.getPlayer().setText("当前玩家: "+getCurrentPlayer());
@@ -73,8 +76,10 @@ public class GameController implements GameListener {
                 model.outrap(selectedPoint);
                 selectedPoint = null;
                 win();
-                turn++;chessGameFrame.getTurns().setText("回合数: "+turn);
-                swapColor();chessGameFrame.getPlayer().setText("当前玩家: "+getCurrentPlayer());
+                turn++;
+                chessGameFrame.getTurns().setText("回合数: "+turn);
+                swapColor();
+                chessGameFrame.getPlayer().setText("当前玩家: "+getCurrentPlayer());
                 if (currentPlayer== PlayerColor.BLUE)chessGameFrame.getPlayer().setForeground(Color.blue);
                 if (currentPlayer==PlayerColor.RED)chessGameFrame.getPlayer().setForeground(Color.red);
                 view.repaint();
@@ -84,9 +89,6 @@ public class GameController implements GameListener {
 
     private void initialize() {
         turn=0;
-        for (File file : new File("resource\\autoSave").listFiles()) {
-            file.delete();
-        }
         for (int i = 0; i < Constant.CHESSBOARD_ROW_SIZE.getNum(); i++) {
             for (int j = 0; j < Constant.CHESSBOARD_COL_SIZE.getNum(); j++) {
             }
@@ -99,10 +101,10 @@ public class GameController implements GameListener {
     }
 
     public boolean win() {
-        if (model.grid[0][3].getPiece()!=null||model.redOver==8){
+        if (model.grid[0][3].getPiece()!=null||model.redOver.size()==8){
             Winner=PlayerColor.BLUE;winner="蓝方";return true;
         }
-        if (model.grid[8][3].getPiece()!=null||model.blueOver==8){
+        if (model.grid[8][3].getPiece()!=null||model.blueOver.size()==8){
             Winner=PlayerColor.RED;winner="红方";return true;
         }
         else return false;
@@ -111,6 +113,19 @@ public class GameController implements GameListener {
     @Override
     public void onPlayerClickCell(ChessboardPoint point, CellComponent component) {
         if (selectedPoint != null && model.isValidMove(selectedPoint, point)) {
+                try {
+                    // 加载音频文件
+                    File soundFile = new File("resource\\voice.wav");
+                    AudioInputStream audioIn = AudioSystem.getAudioInputStream(soundFile);
+                    AudioFormat format = audioIn.getFormat();
+                    DataLine.Info info = new DataLine.Info(Clip.class, format);
+                    Clip clip = (Clip) AudioSystem.getLine(info);
+                    // 打开数据行并开始播放音频
+                    clip.open(audioIn);
+                    clip.start();
+                } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
+                    ex.printStackTrace();
+                }
             model.moveChessPiece(selectedPoint, point);
             view.setChessComponentAtGrid(point, view.removeChessComponentAtGrid(selectedPoint));
             model.intrap(point,currentPlayer);
@@ -131,6 +146,19 @@ public class GameController implements GameListener {
     // click a cell with a chess
     @Override
     public void onPlayerClickChessPiece(ChessboardPoint point, All component) {
+        try {
+            // 加载音频文件
+            File soundFile = new File("resource\\voice.wav");
+            AudioInputStream audioIn = AudioSystem.getAudioInputStream(soundFile);
+            AudioFormat format = audioIn.getFormat();
+            DataLine.Info info = new DataLine.Info(Clip.class, format);
+            Clip clip = (Clip) AudioSystem.getLine(info);
+            // 打开数据行并开始播放音频
+            clip.open(audioIn);
+            clip.start();
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
+            ex.printStackTrace();
+        }
         if (selectedPoint == null) {
             if (model.getChessPieceOwner(point).equals(currentPlayer)) {
                 selectedPoint = point;
@@ -149,13 +177,7 @@ public class GameController implements GameListener {
                 view.removeChessComponentAtGrid(point);
                 view.setChessComponentAtGrid(point, view.removeChessComponentAtGrid(selectedPoint));
                 model.intrap(point,currentPlayer);
-                if (model.getChessPieceOwner(point)==PlayerColor.BLUE){
-                    model.redOver++;
-                }
-                if (model.getChessPieceOwner(point)==PlayerColor.RED){
-                    model.blueOver++;
-                }
-                if (win()){JOptionPane.showMessageDialog(null,winner+"胜利");}
+                win();
                 swapColor();
                 if (level==Level.TwoPlayers)
                 turn++;
@@ -173,7 +195,8 @@ public class GameController implements GameListener {
                 component.setSelected(true);
                 component.repaint();
             }
-        }
+        }if (level!=Level.TwoPlayers)
+            aiStart();
     }
 
     public Chessboard getModel() {
