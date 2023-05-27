@@ -6,12 +6,11 @@ import controller.Load;
 import controller.Save;
 import model.PlayerColor;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
+import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
+import java.io.IOException;
 
 public class ChessGameFrame extends JFrame {
     //    public final Dimension FRAME_SIZE ;
@@ -37,7 +36,6 @@ public class ChessGameFrame extends JFrame {
         setLocationRelativeTo(null); // Center the window.
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); //设置程序关闭按键，如果点击右上方的叉就游戏全部关闭了
         setLayout(null);
-
         addChessboard();
     }
 
@@ -48,6 +46,7 @@ public class ChessGameFrame extends JFrame {
     public void setChessboardComponent(ChessboardComponent chessboardComponent) {
         this.chessboardComponent = chessboardComponent;
     }
+
     private void addChessboard() {
         chessboardComponent = new ChessboardComponent(ONE_CHESS_SIZE);
         chessboardComponent.setLocation(HEIGTH / 5, HEIGTH / 10);
@@ -57,6 +56,19 @@ public class ChessGameFrame extends JFrame {
     public void addSaveButton(GameController gameController) {
         JButton button = new JButton("存档");
         button.addActionListener((e) -> {
+            try {
+                // 加载音频文件
+                File soundFile = new File("resource\\voice.wav");
+                AudioInputStream audioIn = AudioSystem.getAudioInputStream(soundFile);
+                AudioFormat format = audioIn.getFormat();
+                DataLine.Info info = new DataLine.Info(Clip.class, format);
+                Clip clip = (Clip) AudioSystem.getLine(info);
+                // 打开数据行并开始播放音频
+                clip.open(audioIn);
+                clip.start();
+            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
+                ex.printStackTrace();
+            }
             this.Name = JOptionPane.showInputDialog("请输入存档名");
             Save s = new Save();
             s.save(gameController, this.Name);
@@ -66,10 +78,30 @@ public class ChessGameFrame extends JFrame {
         button.setFont(new Font("宋体", Font.BOLD, 20));
         add(button);
     }
-    public void addRegretButton(GameController gameController){
-        JButton button = new JButton("Regret");
 
+    public void addRegretButton(GameController gameController) {
+        JButton button = new JButton("悔棋");
+        button.addActionListener((e) -> {
+            try {
+                // 加载音频文件
+                File soundFile = new File("resource\\voice.wav");
+                AudioInputStream audioIn = AudioSystem.getAudioInputStream(soundFile);
+                AudioFormat format = audioIn.getFormat();
+                DataLine.Info info = new DataLine.Info(Clip.class, format);
+                Clip clip = (Clip) AudioSystem.getLine(info);
+                // 打开数据行并开始播放音频
+                clip.open(audioIn);
+                clip.start();
+            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
+                ex.printStackTrace();
+            }
+        });
+        button.setLocation(HEIGTH, HEIGTH / 10 + 420);
+        button.setSize(200, 60);
+        button.setFont(new Font("宋体", Font.BOLD, 20));
+        add(button);
     }
+
     public void addLoadButton(GameController gameController) {
         JButton button = new JButton("读取存档");
         button.setLocation(HEIGTH, HEIGTH / 10 + 240);
@@ -77,40 +109,69 @@ public class ChessGameFrame extends JFrame {
         button.setFont(new Font("宋体", Font.BOLD, 20));
         add(button);
         button.addActionListener(e -> {
-            Load l=new Load();
+            try {
+                // 加载音频文件
+                File soundFile = new File("resource\\voice.wav");
+                AudioInputStream audioIn = AudioSystem.getAudioInputStream(soundFile);
+                AudioFormat format = audioIn.getFormat();
+                DataLine.Info info = new DataLine.Info(Clip.class, format);
+                Clip clip = (Clip) AudioSystem.getLine(info);
+                // 打开数据行并开始播放音频
+                clip.open(audioIn);
+                clip.start();
+            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
+                ex.printStackTrace();
+            }
+            Load l = new Load();
             l.load(gameController);
         });
     }
-    public void addRestartButton(GameController gameController){
+
+    public void addRestartButton(GameController gameController) {
         JButton button = new JButton("重新开始");
         button.setLocation(HEIGTH, HEIGTH / 10 + 300);
         button.setSize(200, 60);
         button.setFont(new Font("宋体", Font.BOLD, 20));
         add(button);
-        button.addActionListener(e ->{
-        int userOption =  JOptionPane.showConfirmDialog(null,"要重新开始吗？","提示", JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);	//确认对话框
-        if (userOption == JOptionPane.OK_OPTION) {
-            gameController.restart();
-        }else {
-            System.out.println("否");
-        }
+        button.addActionListener(e -> {
+            try {
+                // 加载音频文件
+                File soundFile = new File("resource\\voice.wav");
+                AudioInputStream audioIn = AudioSystem.getAudioInputStream(soundFile);
+                AudioFormat format = audioIn.getFormat();
+                DataLine.Info info = new DataLine.Info(Clip.class, format);
+                Clip clip = (Clip) AudioSystem.getLine(info);
+                // 打开数据行并开始播放音频
+                clip.open(audioIn);
+                clip.start();
+            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
+                ex.printStackTrace();
+            }
+            int userOption = JOptionPane.showConfirmDialog(null, "要重新开始吗？", "提示", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);    //确认对话框
+            if (userOption == JOptionPane.OK_OPTION) {
+                gameController.restart();
+            } else {
+                System.out.println("否");
+            }
         });
     }
-    public void addTurns(GameController gameController){
-        turns=new JLabel("回合数: "+gameController.turn);
-        player=new JLabel("当前玩家: "+gameController.getCurrentPlayer());
-        turns.setSize(200,20);
-        player.setSize(250,20);
+
+    public void addTurns(GameController gameController) {
+        turns = new JLabel("回合数: " + gameController.turn);
+        player = new JLabel("当前玩家: " + gameController.getCurrentPlayer());
+        turns.setSize(200, 20);
+        player.setSize(250, 20);
         turns.setFont(new Font("宋体", Font.BOLD, 16));
         player.setFont(new Font("宋体", Font.BOLD, 16));
-        turns.setLocation(HEIGTH,HEIGTH/10+50);
-        player.setLocation(HEIGTH,HEIGTH/10+80);
-        if (gameController.getCurrentPlayer()== PlayerColor.BLUE)player.setForeground(Color.blue);
-        if (gameController.getCurrentPlayer()==PlayerColor.RED)player.setForeground(Color.red);
+        turns.setLocation(HEIGTH, HEIGTH / 10 + 50);
+        player.setLocation(HEIGTH, HEIGTH / 10 + 80);
+        if (gameController.getCurrentPlayer() == PlayerColor.BLUE) player.setForeground(Color.blue);
+        if (gameController.getCurrentPlayer() == PlayerColor.RED) player.setForeground(Color.red);
         add(player);
         add(turns);
     }
-    public void addBgmButton(){
+
+    public void addBgmButton() {
         playBtn = new JButton("暂停音乐");
         playBtn.setLocation(HEIGTH, HEIGTH / 10 + 360);
         playBtn.setSize(200, 60);
@@ -125,27 +186,28 @@ public class ChessGameFrame extends JFrame {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        playBtn.addActionListener(e ->{
-        if (e.getSource() == playBtn) {
-            try {
-                if (!isPlaying) { // 如果当前没有正在播放，开始播放音乐
-                    File musicFile = new File("resource\\OCTOPATH TRAVELER II.wav");
-                    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(musicFile);
-                    clip = AudioSystem.getClip();
-                    clip.open(audioInputStream);
-                    clip.start();
-                    isPlaying = true;
-                    playBtn.setText("暂停播放");
-                } else { // 如果当前正在播放，暂停播放
-                    clip.close();
-                    isPlaying = false;
-                    playBtn.setText("播放音乐");
+        playBtn.addActionListener(e -> {
+            if (e.getSource() == playBtn) {
+                try {
+                    if (!isPlaying) { // 如果当前没有正在播放，开始播放音乐
+                        File musicFile = new File("resource\\OCTOPATH TRAVELER II.wav");
+                        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(musicFile);
+                        clip = AudioSystem.getClip();
+                        clip.open(audioInputStream);
+                        clip.start();
+                        isPlaying = true;
+                        playBtn.setText("暂停播放");
+                    } else { // 如果当前正在播放，暂停播放
+                        clip.close();
+                        isPlaying = false;
+                        playBtn.setText("播放音乐");
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
                 }
-            } catch (Exception ex) {
-                ex.printStackTrace();
             }
-        }
-    });}
+        });
+    }//背景音乐
 
     public JLabel getTurns() {
         return turns;

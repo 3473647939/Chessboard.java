@@ -18,37 +18,48 @@ public class ChessStartFrame extends JFrame implements ActionListener {
     private JButton exitButton;
 
     public ChessStartFrame() {
-        setTitle("Chess Game");
+        setTitle("斗兽棋");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(2000,2000 );
+        setSize(1024,768);
 
         JPanel panel = new JPanel(new GridLayout(2, 1));
 
-        JLabel titleLabel = new JLabel("Welcome to Chess Game", SwingConstants.CENTER);
+        JLabel titleLabel = new JLabel("斗兽棋", SwingConstants.CENTER);
+        titleLabel.setSize(400,200);
+        titleLabel.setFont(new Font("宋体", Font.BOLD, 100));
         panel.add(titleLabel);
+//
+        ImageIcon bg = new ImageIcon("resource\\background.png");
+        // 创建JLabel，并设置背景
+        JLabel label = new JLabel(bg);
 
+        label.setBounds(0, 0, 1024, 768);
+        this.getLayeredPane().add(label,Integer.valueOf(Integer.MIN_VALUE));
+        ((JPanel)getContentPane()).setOpaque(false); //设置透明
+        setLayout(new FlowLayout());
+  //
         JPanel buttonPanel = new JPanel(new FlowLayout());
 
-        startButton_TwoPlayers = new JButton("Start_TwoPlayers");
+        startButton_TwoPlayers = new JButton("本地双人");
         startButton_TwoPlayers.addActionListener(this);
         buttonPanel.add(startButton_TwoPlayers);
 
-        startButton_AiSimple = new JButton("Start_AiSimple");
+        startButton_AiSimple = new JButton("人机对战——简单");
         startButton_AiSimple.addActionListener(this);
         buttonPanel.add(startButton_AiSimple);
 
-        startButton_AiMid = new JButton("Start_AiMid");
+        startButton_AiMid = new JButton("人机对战——中等");
         startButton_AiMid.addActionListener(this);
         buttonPanel.add(startButton_AiMid);
 
-        startButton_AiHard = new JButton("Start_AiHard");
+        startButton_AiHard = new JButton("人机对战——困难");
         startButton_AiHard.addActionListener(this);
         buttonPanel.add(startButton_AiHard);
 
-        exitButton = new JButton("Exit");
+        exitButton = new JButton("退出游戏");
         exitButton.addActionListener(this);
         buttonPanel.add(exitButton);
-
+        setLocationRelativeTo(null);
         panel.add(buttonPanel);
         add(panel);
 
@@ -65,6 +76,8 @@ public class ChessStartFrame extends JFrame implements ActionListener {
                 mainFrame.addTurns(gameController);
                 mainFrame.addRestartButton(gameController);
                 mainFrame.addBgmButton();
+                mainFrame.addRegretButton(gameController);
+                mainFrame.setLayout(null);
                 setVisible(false);
             });
         }else if (e.getSource()==startButton_AiSimple) {
@@ -77,6 +90,8 @@ public class ChessStartFrame extends JFrame implements ActionListener {
                 mainFrame.addTurns(gameController);
                 mainFrame.addRestartButton(gameController);
                 mainFrame.addBgmButton();
+                mainFrame.addRegretButton(gameController);
+                mainFrame.setLayout(null);
                 setVisible(false);
             });
         }else if (e.getSource()==startButton_AiMid) {
@@ -89,6 +104,8 @@ public class ChessStartFrame extends JFrame implements ActionListener {
                 mainFrame.addTurns(gameController);
                 mainFrame.addRestartButton(gameController);
                 mainFrame.addBgmButton();
+                mainFrame.addRegretButton(gameController);
+                mainFrame.setLayout(null);
                 setVisible(false);
             });
         }else if (e.getSource()==startButton_AiHard) {
@@ -101,6 +118,8 @@ public class ChessStartFrame extends JFrame implements ActionListener {
                 mainFrame.addTurns(gameController);
                 mainFrame.addRestartButton(gameController);
                 mainFrame.addBgmButton();
+                mainFrame.addRegretButton(gameController);
+                mainFrame.setLayout(null);
                 setVisible(false);
             });
         } else if (e.getSource()==exitButton) {
