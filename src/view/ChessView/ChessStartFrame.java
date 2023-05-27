@@ -20,7 +20,7 @@ public class ChessStartFrame extends JFrame implements ActionListener {
     public ChessStartFrame() {
         setTitle("Chess Game");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(500,500 );
+        setSize(2000,2000 );
 
         JPanel panel = new JPanel(new GridLayout(2, 1));
 
@@ -65,6 +65,7 @@ public class ChessStartFrame extends JFrame implements ActionListener {
                 mainFrame.addTurns(gameController);
                 mainFrame.addRestartButton(gameController);
                 mainFrame.addBgmButton();
+                setVisible(false);
             });
         }else if (e.getSource()==startButton_AiSimple) {
             SwingUtilities.invokeLater(() -> {
@@ -76,6 +77,7 @@ public class ChessStartFrame extends JFrame implements ActionListener {
                 mainFrame.addTurns(gameController);
                 mainFrame.addRestartButton(gameController);
                 mainFrame.addBgmButton();
+                setVisible(false);
             });
         }else if (e.getSource()==startButton_AiMid) {
             SwingUtilities.invokeLater(() -> {
@@ -87,6 +89,7 @@ public class ChessStartFrame extends JFrame implements ActionListener {
                 mainFrame.addTurns(gameController);
                 mainFrame.addRestartButton(gameController);
                 mainFrame.addBgmButton();
+                setVisible(false);
             });
         }else if (e.getSource()==startButton_AiHard) {
             SwingUtilities.invokeLater(() -> {
@@ -98,6 +101,7 @@ public class ChessStartFrame extends JFrame implements ActionListener {
                 mainFrame.addTurns(gameController);
                 mainFrame.addRestartButton(gameController);
                 mainFrame.addBgmButton();
+                setVisible(false);
             });
         } else if (e.getSource()==exitButton) {
             System.exit(0);

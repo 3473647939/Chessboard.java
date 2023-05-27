@@ -149,7 +149,6 @@ public class GameController implements GameListener {
                 win();
                 if (level==Level.TwoPlayers)
                 turn++;
-                swapColor();
                 chessGameFrame.getTurns().setText("回合数: "+turn);
                 chessGameFrame.getPlayer().setText("当前玩家: "+getCurrentPlayer());
                 if (currentPlayer== PlayerColor.BLUE)chessGameFrame.getPlayer().setForeground(Color.blue);
@@ -158,6 +157,8 @@ public class GameController implements GameListener {
                 view.repaint();
 
             } else if (model.getChessPieceOwner(point).equals(currentPlayer)) {
+                closeLegalMove(selectedPoint);
+                showLegalMove(point);
                 selectedPoint = point;
                 component.setSelected(true);
                 component.repaint();
