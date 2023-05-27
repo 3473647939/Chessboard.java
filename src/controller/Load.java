@@ -43,9 +43,10 @@ public class Load extends Component {
                 }
                 try {
                     BufferedReader br = new BufferedReader(new FileReader(path));
+                    System.out.println(count);
                     //从index=4开始找到两个空格所在位置s1,s2  依次读取5——s1-1；s1+1——s2-1；s2+1
                     //找到对应的信息
-                    for (int i = 1; i < count; i++) {
+                    for (int i = 1; i < count-2; i++) {
                         String s;
                         try {
                             s = br.readLine();
@@ -85,6 +86,8 @@ public class Load extends Component {
                     gameController.view.repaint();
                     try {//设定操作方
                         String player = br.readLine();
+                        gameController.getModel().redOver= Integer.parseInt(br.readLine());
+                        gameController.getModel().blueOver= Integer.parseInt(br.readLine());
                         PlayerColor playerColor = null;
                         if (player.equals("Blue")) {
                             playerColor = PlayerColor.BLUE;

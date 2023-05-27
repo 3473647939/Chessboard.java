@@ -15,15 +15,15 @@ public class Chessboard {
     public ArrayList<Go> gos;
     private Set<ChessboardPoint> trapCellr = new HashSet<>();
     private Set<ChessboardPoint> trapCellb = new HashSet<>();
-    public ArrayList<ChessPiece> blueOver;
-    public ArrayList<ChessPiece> redOver;
+    public int blueOver;
+    public int redOver;
 
     public Chessboard() {
         this.grid =
                 new Cell[Constant.CHESSBOARD_ROW_SIZE.getNum()][Constant.CHESSBOARD_COL_SIZE.getNum()];//19X19
         gos = new ArrayList<>();
-        blueOver = new ArrayList<>();
-        redOver = new ArrayList<>();
+        blueOver = 0;
+        redOver = 0;
 
         initGrid();
         initPieces();
