@@ -10,22 +10,24 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class Save {
-    public void save(GameController gameController,String name) {
-        File file = new File("resource\\Save\\"+name+".txt");
+    public void save(GameController gameController, String name) {
+        File file = new File("resource\\Save\\" + name + ".txt");
         try {
             FileWriter fileWriter = new FileWriter(file);
-            BufferedWriter bufferedWriter=new BufferedWriter(fileWriter);
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
             for (int i = 0; i < 9; i++) {
                 for (int j = 0; j < 7; j++) {
                     Cell cell = gameController.getModel().getGrid()[i][j];
-                    if (cell.getPiece() !=null) {
-                        bufferedWriter.write(i + " " + j + " " + (cell.getPiece().getOwner().equals(PlayerColor.BLUE) ?  "Blue":"Red" ) + " " + cell.getPiece().getName() + " " + cell.getPiece().getRank() +" "+gameController.turn + "\n");
+                    if (cell.getPiece() != null) {
+                        bufferedWriter.write(i + " " + j + " " + (cell.getPiece().getOwner().equals(PlayerColor.BLUE) ? "Blue" : "Red") + " " + cell.getPiece().getName() + " " + cell.getPiece().getRank() + " " + gameController.turn + "\n");
                     }
                 }
             }
-                bufferedWriter.write(gameController.getCurrentPlayer().equals(PlayerColor.BLUE)?"Blue":"Red");
-                bufferedWriter.close();
-                JOptionPane.showMessageDialog(null,"存档成功");
+            bufferedWriter.write(gameController.getCurrentPlayer().equals(PlayerColor.BLUE) ? "Blue" : "Red");
+            bufferedWriter.write("\n"+gameController.getModel().redOver+"\n");
+            bufferedWriter.write(gameController.getModel().blueOver+"\n");
+            bufferedWriter.close();
+            JOptionPane.showMessageDialog(null, "存档成功");
         } catch (IOException e) {
             e.printStackTrace();
         }
