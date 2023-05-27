@@ -151,8 +151,8 @@ public class Chessboard {
         }
         ChessPiece eat = removeChessPiece(src);
         setChessPiece(dest,eat);
-        if (getChessPieceAt(dest).getOwner().getColor().equals(PlayerColor.BLUE)) blueOver.add(getChessPieceAt(dest));
-        if (getChessPieceAt(dest).getOwner().getColor().equals(PlayerColor.RED)) redOver.add(getChessPieceAt(dest));
+        if (getChessPieceAt(dest).getOwner().getColor().equals(PlayerColor.BLUE)) blueOver++;
+        if (getChessPieceAt(dest).getOwner().getColor().equals(PlayerColor.RED)) redOver++;
     }
 
     public Cell[][] getGrid() {
