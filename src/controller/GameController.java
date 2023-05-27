@@ -89,6 +89,9 @@ public class GameController implements GameListener {
 
     private void initialize() {
         turn=0;
+        for (File file : new File("resource\\autoSave").listFiles()) {
+            file.delete();
+        }
         for (int i = 0; i < Constant.CHESSBOARD_ROW_SIZE.getNum(); i++) {
             for (int j = 0; j < Constant.CHESSBOARD_COL_SIZE.getNum(); j++) {
             }
@@ -177,7 +180,13 @@ public class GameController implements GameListener {
                 view.removeChessComponentAtGrid(point);
                 view.setChessComponentAtGrid(point, view.removeChessComponentAtGrid(selectedPoint));
                 model.intrap(point,currentPlayer);
-                win();
+                if (model.getChessPieceOwner(point)==PlayerColor.BLUE){
+                    model.redOver++;
+                }
+                if (model.getChessPieceOwner(point)==PlayerColor.RED){
+                    model.blueOver++;
+                }
+                if (win()){JOptionPane.showMessageDialog(null,winner+"胜利");}
                 swapColor();
                 if (level==Level.TwoPlayers)
                 turn++;
