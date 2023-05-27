@@ -8,9 +8,11 @@ import view.ChessGameFrame;
 import view.ChessView.All;
 import view.ChessboardComponent;
 
+import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class GameController implements GameListener {
@@ -111,6 +113,19 @@ public class GameController implements GameListener {
     @Override
     public void onPlayerClickCell(ChessboardPoint point, CellComponent component) {
         if (selectedPoint != null && model.isValidMove(selectedPoint, point)) {
+                try {
+                    // 加载音频文件
+                    File soundFile = new File("resource\\voice.wav");
+                    AudioInputStream audioIn = AudioSystem.getAudioInputStream(soundFile);
+                    AudioFormat format = audioIn.getFormat();
+                    DataLine.Info info = new DataLine.Info(Clip.class, format);
+                    Clip clip = (Clip) AudioSystem.getLine(info);
+                    // 打开数据行并开始播放音频
+                    clip.open(audioIn);
+                    clip.start();
+                } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
+                    ex.printStackTrace();
+                }
             model.moveChessPiece(selectedPoint, point);
             view.setChessComponentAtGrid(point, view.removeChessComponentAtGrid(selectedPoint));
             model.intrap(point,currentPlayer);
@@ -131,6 +146,19 @@ public class GameController implements GameListener {
     // click a cell with a chess
     @Override
     public void onPlayerClickChessPiece(ChessboardPoint point, All component) {
+        try {
+            // 加载音频文件
+            File soundFile = new File("resource\\voice.wav");
+            AudioInputStream audioIn = AudioSystem.getAudioInputStream(soundFile);
+            AudioFormat format = audioIn.getFormat();
+            DataLine.Info info = new DataLine.Info(Clip.class, format);
+            Clip clip = (Clip) AudioSystem.getLine(info);
+            // 打开数据行并开始播放音频
+            clip.open(audioIn);
+            clip.start();
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
+            ex.printStackTrace();
+        }
         if (selectedPoint == null) {
             if (model.getChessPieceOwner(point).equals(currentPlayer)) {
                 selectedPoint = point;
