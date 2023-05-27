@@ -48,6 +48,7 @@ public class GameController implements GameListener {
     public void restart(){
         this.currentPlayer = PlayerColor.BLUE;
         this.model =new Chessboard();
+        this.ai = new AI(model,level);
         this.view.initiateChessComponent(model);
         chessGameFrame.getTurns().setText("回合数: "+0);
         chessGameFrame.getPlayer().setText("当前玩家: "+getCurrentPlayer());
@@ -73,8 +74,10 @@ public class GameController implements GameListener {
                 model.outrap(selectedPoint);
                 selectedPoint = null;
                 win();
-                turn++;chessGameFrame.getTurns().setText("回合数: "+turn);
-                swapColor();chessGameFrame.getPlayer().setText("当前玩家: "+getCurrentPlayer());
+                turn++;
+                chessGameFrame.getTurns().setText("回合数: "+turn);
+                swapColor();
+                chessGameFrame.getPlayer().setText("当前玩家: "+getCurrentPlayer());
                 if (currentPlayer== PlayerColor.BLUE)chessGameFrame.getPlayer().setForeground(Color.blue);
                 if (currentPlayer==PlayerColor.RED)chessGameFrame.getPlayer().setForeground(Color.red);
                 view.repaint();
@@ -96,10 +99,10 @@ public class GameController implements GameListener {
     }
 
     public boolean win() {
-        if (model.grid[0][3].getPiece()!=null||model.redOver.toArray().length==8){
+        if (model.grid[0][3].getPiece()!=null||model.redOver.size()==8){
             Winner=PlayerColor.BLUE;winner="蓝方";return true;
         }
-        if (model.grid[8][3].getPiece()!=null||model.blueOver.toArray().length==8){
+        if (model.grid[8][3].getPiece()!=null||model.blueOver.size()==8){
             Winner=PlayerColor.RED;winner="红方";return true;
         }
         else return false;
@@ -147,6 +150,7 @@ public class GameController implements GameListener {
                 view.setChessComponentAtGrid(point, view.removeChessComponentAtGrid(selectedPoint));
                 model.intrap(point,currentPlayer);
                 win();
+                swapColor();
                 if (level==Level.TwoPlayers)
                 turn++;
                 chessGameFrame.getTurns().setText("回合数: "+turn);
@@ -163,7 +167,8 @@ public class GameController implements GameListener {
                 component.setSelected(true);
                 component.repaint();
             }
-        }
+        }if (level!=Level.TwoPlayers)
+            aiStart();
     }
 
     public Chessboard getModel() {
