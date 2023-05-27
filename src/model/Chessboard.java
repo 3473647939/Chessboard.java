@@ -234,7 +234,7 @@ public class Chessboard {
             return b && !isRiver(dest) && eaten.rank <= 2;
         }
         if (eat.getName().equals("Rat")){
-            return b && (eaten.rank <= 1 || eaten.rank == 8) && !(isRiver(src) && !isRiver(dest));
+            return b && (eaten.rank <= 1 || eaten.rank == 8) &&  !isRiver(dest);
         }
         return false;
     }
