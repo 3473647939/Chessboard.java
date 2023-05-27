@@ -78,6 +78,7 @@ public class ChessStartFrame extends JFrame implements ActionListener {
                 mainFrame.addBgmButton();
                 mainFrame.addRegretButton(gameController);
                 mainFrame.setLayout(null);
+                mainFrame.addReplayButton(gameController);
                 setVisible(false);
             });
         }else if (e.getSource()==startButton_AiSimple) {
@@ -91,6 +92,7 @@ public class ChessStartFrame extends JFrame implements ActionListener {
                 mainFrame.addRestartButton(gameController);
                 mainFrame.addBgmButton();
                 mainFrame.addRegretButton(gameController);
+                mainFrame.addReplayButton(gameController);
                 mainFrame.setLayout(null);
                 setVisible(false);
             });
@@ -105,6 +107,7 @@ public class ChessStartFrame extends JFrame implements ActionListener {
                 mainFrame.addRestartButton(gameController);
                 mainFrame.addBgmButton();
                 mainFrame.addRegretButton(gameController);
+                mainFrame.addReplayButton(gameController);
                 mainFrame.setLayout(null);
                 setVisible(false);
             });
@@ -119,6 +122,7 @@ public class ChessStartFrame extends JFrame implements ActionListener {
                 mainFrame.addRestartButton(gameController);
                 mainFrame.addBgmButton();
                 mainFrame.addRegretButton(gameController);
+                mainFrame.addReplayButton(gameController);
                 mainFrame.setLayout(null);
                 setVisible(false);
             });

@@ -4,6 +4,7 @@ import controller.GameController;
 import controller.Load;
 
 import controller.Save;
+import controller.replay;
 import model.Cell;
 import model.PlayerColor;
 
@@ -158,6 +159,30 @@ public class ChessGameFrame extends JFrame {
             } else {
                 System.out.println("否");
             }
+        });
+    }
+    public void addReplayButton(GameController gameController){
+        JButton button = new JButton("棋局回放");
+        button.setLocation(HEIGTH, HEIGTH / 10 + 480);
+        button.setSize(200, 60);
+        button.setFont(new Font("宋体", Font.BOLD, 20));
+        add(button);
+        button.addActionListener(e -> {
+            try {
+                // 加载音频文件
+                File soundFile = new File("resource\\voice.wav");
+                AudioInputStream audioIn = AudioSystem.getAudioInputStream(soundFile);
+                AudioFormat format = audioIn.getFormat();
+                DataLine.Info info = new DataLine.Info(Clip.class, format);
+                Clip clip = (Clip) AudioSystem.getLine(info);
+                // 打开数据行并开始播放音频
+                clip.open(audioIn);
+                clip.start();
+            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
+                ex.printStackTrace();
+            }
+            replay r=new replay();
+            r.Replay(gameController);
         });
     }
 

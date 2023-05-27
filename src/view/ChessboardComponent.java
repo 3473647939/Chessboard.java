@@ -1,7 +1,6 @@
 package view;
 
 
-import controller.AI;
 import controller.GameController;
 import model.*;
 import view.ChessView.*;
