@@ -7,6 +7,7 @@ import controller.Save;
 import controller.replay;
 import model.Cell;
 import model.PlayerColor;
+import view.ChessView.ChessStartFrame;
 
 import javax.sound.sampled.*;
 import javax.swing.*;
@@ -245,5 +246,32 @@ public class ChessGameFrame extends JFrame {
 
     public JLabel getPlayer() {
         return player;
+    }
+    public void addQuitButton(){
+        JButton button = new JButton("返回主菜单");
+        button.setLocation(HEIGTH, HEIGTH / 10 + 540);
+        button.setSize(200, 60);
+        button.setFont(new Font("宋体", Font.BOLD, 20));
+        add(button);
+        button.addActionListener(e -> {
+            try {
+                // 加载音频文件
+                File soundFile = new File("resource\\voice.wav");
+                AudioInputStream audioIn = AudioSystem.getAudioInputStream(soundFile);
+                AudioFormat format = audioIn.getFormat();
+                DataLine.Info info = new DataLine.Info(Clip.class, format);
+                Clip clip = (Clip) AudioSystem.getLine(info);
+                // 打开数据行并开始播放音频
+                clip.open(audioIn);
+                clip.start();
+            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
+                ex.printStackTrace();
+            }
+            dispose();
+            clip.close();
+            ChessStartFrame l=new ChessStartFrame();
+            l.setVisible(true);
+        });
+
     }
 }

@@ -124,7 +124,7 @@ public class GameController implements GameListener {
         if (selectedPoint != null && model.isValidMove(selectedPoint, point)) {
             try {
                 // 加载音频文件
-                File soundFile = new File("resource\\voice.wav");
+                File soundFile = new File("resource\\ChessMove.wav");
                 AudioInputStream audioIn = AudioSystem.getAudioInputStream(soundFile);
                 AudioFormat format = audioIn.getFormat();
                 DataLine.Info info = new DataLine.Info(Clip.class, format);
@@ -162,7 +162,7 @@ public class GameController implements GameListener {
     public void onPlayerClickChessPiece(ChessboardPoint point, All component) {
         try {
             // 加载音频文件
-            File soundFile = new File("resource\\voice.wav");
+            File soundFile = new File("resource\\ChessMove.wav");
             AudioInputStream audioIn = AudioSystem.getAudioInputStream(soundFile);
             AudioFormat format = audioIn.getFormat();
             DataLine.Info info = new DataLine.Info(Clip.class, format);
