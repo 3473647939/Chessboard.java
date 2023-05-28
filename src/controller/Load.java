@@ -19,6 +19,7 @@ public class Load extends Component {
         fileChooser.setApproveButtonText("确定");
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         int result = fileChooser.showOpenDialog(null);
+        boolean aaa=true;
         if (JFileChooser.APPROVE_OPTION == result) {//重置棋盘
             File selectedFile = fileChooser.getSelectedFile();
             if (!selectedFile.getName().endsWith(".txt")) {
@@ -44,7 +45,7 @@ public class Load extends Component {
                     BufferedReader br = new BufferedReader(new FileReader(path));
                     //从index=4开始找到两个空格所在位置s1,s2  依次读取5——s1-1；s1+1——s2-1；s2+1
                     //找到对应的信息
-                    for (int i = 1; i < count-2; i++) {
+                    for (int i = 1; i < count-3; i++) {
                         String s;
                         try {
                             s = br.readLine();
@@ -57,29 +58,34 @@ public class Load extends Component {
                         String name = s.substring(s.indexOf(" ", 5) + 1, s.indexOf(" ", s.indexOf(" ", 5) + 1));
                         int s1 = s.indexOf(" ", s.indexOf(" ", 5) + 1);
                         int rank = Integer.parseInt(s.substring(s1 + 1, s1 + 2));
-                        int turn = Integer.parseInt(s.substring(s1 + 3));
-                        gameController.turn=turn;
-                        PlayerColor playerColor;
-                        boolean judge;
+                        PlayerColor playerColor1 = null;
+                        boolean judge=true;
                         if (!color.equals("Blue") && !color.equals("Red")) {
                             JOptionPane.showMessageDialog(null, "缺少下一步行棋方", "错误代码：103", JOptionPane.ERROR_MESSAGE);
+                            aaa=false;
                             judge = false;
-                            playerColor = null;
-                        } else if (color.equals("Red")) {
-                            playerColor = PlayerColor.RED;
-                            judge = true;
+                        }else if (y > 9 || x > 7) {
+                            judge=false;
+                            JOptionPane.showMessageDialog(null, "棋盘错误", "错误代码：102", JOptionPane.ERROR_MESSAGE);
+                        }
+                        else if (color.equals("Red")) {
+                            playerColor1 = PlayerColor.RED;
+
                         } else {
-                            playerColor = PlayerColor.BLUE;
-                            judge = true;
+                            playerColor1 = PlayerColor.BLUE;
                         }
                         //转录到棋盘上
                         if (judge) {
                             ChessboardPoint chessboardPoint = new ChessboardPoint(y, x);
-                            gameController.getChessGameFrame().getTurns().setText("回合数: " + turn);
-                            gameController.getModel().setChessPiece(chessboardPoint, new ChessPiece(playerColor, name, rank));
+                            gameController.getModel().setChessPiece(chessboardPoint, new ChessPiece(playerColor1, name, rank));
+                            System.out.println(1);
                         }
-                        //重置Component层
+                        else {
+                            JOptionPane.showMessageDialog(null, "无法读取存档", "错误", JOptionPane.ERROR_MESSAGE);
+                            aaa=false;
+                        }
                     }
+                        //重置Component层
                     gameController.view.initiateChessComponent(gameController.getModel());
                     gameController.view.repaint();
                     try {//设定操作方
@@ -92,6 +98,7 @@ public class Load extends Component {
                         } else if (player.equals("Red")) {
                             playerColor = PlayerColor.RED;
                         } else {
+                            aaa=false;
                             JOptionPane.showMessageDialog(null, "缺少下一步行棋方", "错误代码：104", JOptionPane.ERROR_MESSAGE);
                         }
                         gameController.setCurrentPlayer(playerColor);
@@ -100,6 +107,9 @@ public class Load extends Component {
                             gameController.getChessGameFrame().getPlayer().setForeground(Color.blue);
                         if (gameController.getCurrentPlayer() == PlayerColor.RED)
                             gameController.getChessGameFrame().getPlayer().setForeground(Color.red);
+                        int turn = Integer.parseInt(br.readLine());
+                        gameController.getChessGameFrame().getTurns().setText("回合数: " + turn);
+                        gameController.turn = turn;
                         br.close();
                     } catch (IOException e) {
                         throw new RuntimeException(e);
@@ -107,6 +117,7 @@ public class Load extends Component {
                 } catch (FileNotFoundException e) {
                     throw new RuntimeException(e);
                 }
+                if (!aaa)gameController.restart();
             }
         }
     }//存死亡的棋子

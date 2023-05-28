@@ -19,13 +19,14 @@ public class Save {
                 for (int j = 0; j < 7; j++) {
                     Cell cell = gameController.getModel().getGrid()[i][j];
                     if (cell.getPiece() != null) {
-                        bufferedWriter.write(i + " " + j + " " + (cell.getPiece().getOwner().equals(PlayerColor.BLUE) ? "Blue" : "Red") + " " + cell.getPiece().getName() + " " + cell.getPiece().getRank() + " " + gameController.turn + "\n");
+                        bufferedWriter.write(i + " " + j + " " + (cell.getPiece().getOwner().equals(PlayerColor.BLUE) ? "Blue" : "Red") + " " + cell.getPiece().getName() + " " + cell.getPiece().getRank()  + "\n");
                     }
                 }
             }
             bufferedWriter.write(gameController.getCurrentPlayer().equals(PlayerColor.BLUE) ? "Blue" : "Red");
             bufferedWriter.write("\n"+gameController.getModel().redOver+"\n");
             bufferedWriter.write(gameController.getModel().blueOver+"\n");
+            bufferedWriter.write(gameController.turn+"\n");
             bufferedWriter.close();
             JOptionPane.showMessageDialog(null, "存档成功");
         } catch (IOException e) {

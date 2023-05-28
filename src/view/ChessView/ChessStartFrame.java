@@ -18,16 +18,16 @@ public class ChessStartFrame extends JFrame implements ActionListener {
     private JButton exitButton;
 
     public ChessStartFrame() {
-        setTitle("斗兽棋");
+        setTitle("斗兽棋:快去玩最终幻想16");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1024,768);
 
-        JPanel panel = new JPanel(new GridLayout(2, 1));
-
-        JLabel titleLabel = new JLabel("斗兽棋", SwingConstants.CENTER);
+        JLabel titleLabel = new JLabel("斗兽棋");
         titleLabel.setSize(400,200);
-        titleLabel.setFont(new Font("宋体", Font.BOLD, 100));
-        panel.add(titleLabel);
+        titleLabel.setFont(new Font("宋体", Font.PLAIN, 100));
+        titleLabel.setLocation(352,75);
+        titleLabel.setForeground(Color.white);
+        add(titleLabel);
 //
         ImageIcon bg = new ImageIcon("resource\\background.png");
         // 创建JLabel，并设置背景
@@ -36,32 +36,43 @@ public class ChessStartFrame extends JFrame implements ActionListener {
         label.setBounds(0, 0, 1024, 768);
         this.getLayeredPane().add(label,Integer.valueOf(Integer.MIN_VALUE));
         ((JPanel)getContentPane()).setOpaque(false); //设置透明
-        setLayout(new FlowLayout());
+        setLayout(null);
   //
-        JPanel buttonPanel = new JPanel(new FlowLayout());
-
         startButton_TwoPlayers = new JButton("本地双人");
         startButton_TwoPlayers.addActionListener(this);
-        buttonPanel.add(startButton_TwoPlayers);
+        startButton_TwoPlayers.setFont(new Font("宋体", Font.PLAIN, 12));
+        startButton_TwoPlayers.setLocation(432,250);
+        startButton_TwoPlayers.setSize(150,50);
+        add(startButton_TwoPlayers);
 
         startButton_AiSimple = new JButton("人机对战——简单");
         startButton_AiSimple.addActionListener(this);
-        buttonPanel.add(startButton_AiSimple);
+        startButton_AiSimple.setLocation(432,310);
+        startButton_AiSimple.setSize(150,50);
+        startButton_AiSimple.setFont(new Font("宋体", Font.PLAIN, 12));
+        add(startButton_AiSimple);
 
         startButton_AiMid = new JButton("人机对战——中等");
         startButton_AiMid.addActionListener(this);
-        buttonPanel.add(startButton_AiMid);
+        startButton_AiMid.setFont(new Font("宋体", Font.PLAIN, 12));
+        startButton_AiMid.setLocation(432,370);
+        startButton_AiMid.setSize(150,50);
+        add(startButton_AiMid);
 
         startButton_AiHard = new JButton("人机对战——困难");
         startButton_AiHard.addActionListener(this);
-        buttonPanel.add(startButton_AiHard);
+        startButton_AiHard.setSize(150,50);
+        startButton_AiHard.setLocation(432,430);
+        startButton_AiHard.setFont(new Font("宋体", Font.PLAIN, 12));
+        add(startButton_AiHard);
 
         exitButton = new JButton("退出游戏");
         exitButton.addActionListener(this);
-        buttonPanel.add(exitButton);
+        exitButton.setFont(new Font("宋体", Font.PLAIN, 12));
+        exitButton.setSize(150,50);
+        exitButton.setLocation(432,490);
+        add(exitButton);
         setLocationRelativeTo(null);
-        panel.add(buttonPanel);
-        add(panel);
 
         setVisible(true);
     }
