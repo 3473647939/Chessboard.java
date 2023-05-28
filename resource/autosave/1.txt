@@ -1,7 +1,7 @@
 0 0 Red Lion 7 1
+0 5 Red Cat 2 1
 0 6 Red Tiger 6 1
 1 1 Red Dog 3 1
-1 5 Red Cat 2 1
 2 0 Red Rat 1 1
 2 2 Red Leopard 5 1
 2 4 Red Wolf 4 1

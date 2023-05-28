@@ -5,16 +5,13 @@ import controller.Load;
 
 import controller.Save;
 import controller.replay;
-import model.Cell;
 import model.PlayerColor;
 import view.ChessView.ChessStartFrame;
 
 import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 
 public class ChessGameFrame extends JFrame {
@@ -209,7 +206,7 @@ public class ChessGameFrame extends JFrame {
         playBtn.setFont(new Font("宋体", Font.BOLD, 20));
         add(playBtn);
         try {
-            File musicFile = new File("resource\\OCTOPATH TRAVELER II.wav");
+            File musicFile = new File("resource\\Overworld Day.wav");
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(musicFile);
             clip = AudioSystem.getClip();
             clip.open(audioInputStream);

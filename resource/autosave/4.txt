@@ -1,11 +1,11 @@
 0 0 Red Lion 7 4
+0 5 Red Cat 2 4
 0 6 Red Tiger 6 4
-1 1 Red Dog 3 4
-1 5 Red Cat 2 4
+1 0 Red Dog 3 4
 2 0 Red Rat 1 4
 2 2 Red Leopard 5 4
+2 4 Red Wolf 4 4
 2 6 Red Elephant 8 4
-3 3 Red Wolf 4 4
 5 3 Blue Leopard 5 4
 6 0 Blue Elephant 8 4
 6 2 Blue Wolf 4 4

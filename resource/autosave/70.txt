@@ -1,0 +1,11 @@
+1 4 Blue Elephant 8 70
+1 6 Red Tiger 6 70
+6 1 Blue Wolf 4 70
+6 3 Blue Rat 1 70
+6 6 Blue Lion 7 70
+7 1 Blue Cat 2 70
+7 5 Blue Dog 3 70
+8 0 Blue Tiger 6 70
+Blue
+7
+1

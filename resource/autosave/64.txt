@@ -1,0 +1,11 @@
+0 6 Red Tiger 6 64
+2 6 Blue Elephant 8 64
+6 1 Blue Wolf 4 64
+6 3 Blue Rat 1 64
+6 6 Blue Lion 7 64
+7 1 Blue Cat 2 64
+7 5 Blue Dog 3 64
+8 0 Blue Tiger 6 64
+Blue
+7
+1
